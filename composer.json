@@ -1,0 +1,30 @@
+{
+    "name": "surfoo/geocaching-api-demo",
+    "description": "Demo of the Geocaching API",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Surfoo",
+            "email": "surfooo@gmail.com"
+        }
+    ],
+    "require": {
+        "twig/twig": "^2.4",
+        "geocaching/api": "dev-rest",
+        "twbs/bootstrap": "^4.1",
+        "components/jquery": "^3.3",
+        "symfony/debug": "^4.1"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "cp -n app/config.dist.php app/config.php",
+            "cp -r vendor/twbs/bootstrap/dist/* web/assets/bootstrap/",
+            "cp -r vendor/components/jquery/* web/assets/jquery/"
+        ],
+        "post-update-cmd": [
+            "cp -r vendor/twbs/bootstrap/dist/* web/assets/bootstrap/",
+            "cp -r vendor/components/jquery/* web/assets/jquery/"
+        ]
+    }
+}

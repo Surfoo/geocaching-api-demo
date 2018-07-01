@@ -1,2 +1,2 @@
 # geocaching-api-demo
-Demo of the Geocaching Api
+Demo of the Geocaching PHP SDK

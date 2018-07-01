@@ -1,0 +1,3324 @@
+{
+	"info": {
+		"_postman_id": "9ec3ad48-609a-4c21-83f6-0ead3873f618",
+		"name": "Geocaching API",
+		"description": "API version 1.0.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "v1",
+			"description": "Folder for v1",
+			"item": [
+				{
+					"name": "Get a list of friends for the calling user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/friends?skip=0&take=10&fields=referenceCode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"friends"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "take",
+									"value": "10"
+								},
+								{
+									"key": "fields",
+									"value": "referenceCode"
+								}
+							]
+						},
+						"description": "This method will return a list of Users."
+					},
+					"response": []
+				},
+				{
+					"name": "Get a list of friend requests for the calling user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/friendrequests?skip=0&take=10&fields=id",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"friendrequests"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "take",
+									"value": "10"
+								},
+								{
+									"key": "fields",
+									"value": "id"
+								}
+							],
+							"variable": [
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return a list of requests including both inbound and outbound requests."
+					},
+					"response": []
+				},
+				{
+					"name": "Create a friend request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "The friend request to create."
+						},
+						"url": {
+							"raw": "{{url}}/friendrequests?fields=id",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"friendrequests"
+							],
+							"query": [
+								{
+									"key": "fields",
+									"value": "id"
+								}
+							],
+							"variable": [
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return the friend request created."
+					},
+					"response": []
+				},
+				{
+					"name": "Accept a friend request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/friendrequests/:requestId/accept",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"friendrequests",
+								":requestId",
+								"accept"
+							],
+							"variable": [
+								{
+									"key": "requestId",
+									"value": "{{requestId}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Removes a friend",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/friends/:userCode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"friends",
+								":userCode"
+							],
+							"variable": [
+								{
+									"key": "userCode",
+									"value": "{{userCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return no content."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a friend request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/friendrequests/:requestId",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"friendrequests",
+								":requestId"
+							],
+							"variable": [
+								{
+									"key": "requestId",
+									"value": "{{requestId}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return no content."
+					},
+					"response": []
+				},
+				{
+					"name": "Get a single geocache log",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/geocachelogs/GLVXBB7F?fields=ownerCode,referenceCode,imageCount,loggedDate,text,updatedCoordinates,type,geocacheCode,usedFavoritePoint,isEncoded,isArchived",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"geocachelogs",
+								"GLVXBB7F"
+							],
+							"query": [
+								{
+									"key": "fields",
+									"value": "ownerCode,referenceCode,imageCount,loggedDate,text,updatedCoordinates,type,geocacheCode,usedFavoritePoint,isEncoded,isArchived"
+								}
+							]
+						},
+						"description": "This method will return a single geocache log."
+					},
+					"response": []
+				},
+				{
+					"name": "Update a geocache log",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\ttext: \"lorem lipsum\",\n\tgeocacheCode: \"GC7NX8F\",\n\ttype: 4,\n\tloggedDate: \"2018-06-26 00:15:42\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}/geocachelogs/GLVZTGKK?fields=referenceCode",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"geocachelogs",
+								"GLVZTGKK"
+							],
+							"query": [
+								{
+									"key": "fields",
+									"value": "referenceCode"
+								}
+							]
+						},
+						"description": "This method will return a geocache log."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a geocache log",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/geocachelogs/GLVZTGKK",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"geocachelogs",
+								"GLVZTGKK"
+							]
+						},
+						"description": "This method will not have a response body."
+					},
+					"response": []
+				},
+				{
+					"name": "Get a the images attached to a geocache log",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/geocachelogs/:referenceCode/images?skip=0&take=10&fields=url",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"geocachelogs",
+								":referenceCode",
+								"images"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "take",
+									"value": "10"
+								},
+								{
+									"key": "fields",
+									"value": "url"
+								}
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return a list of images."
+					},
+					"response": []
+				},
+				{
+					"name": "Add an image to a geocache log",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/geocachelogs/:referenceCode/images?fields=url",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"geocachelogs",
+								":referenceCode",
+								"images"
+							],
+							"query": [
+								{
+									"key": "fields",
+									"value": "url"
+								}
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return a single Geocache."
+					},
+					"response": []
+				},
+				{
+					"name": "Add a log to a geocache",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\ttext: \"youplaboum\",\n\tgeocacheCode: \"GC7NX8F\",\n\ttype: 4,\n\tloggedDate: \"2018-06-26 00:15:42\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}/geocachelogs/GLVZTGKK?fields=referencecode",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"geocachelogs",
+								"GLVZTGKK"
+							],
+							"query": [
+								{
+									"key": "fields",
+									"value": "referencecode"
+								}
+							]
+						},
+						"description": "This method will return the created geocache log."
+					},
+					"response": []
+				},
+				{
+					"name": "Upsert a geocache note for the calling user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "text/plain"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "the cache is in a tree"
+						},
+						"url": {
+							"raw": "{{url}}/geocaches/GC7NX8F/notes",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"geocaches",
+								"GC7NX8F",
+								"notes"
+							]
+						},
+						"description": "This method will return the upserted text."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a geocache note for the calling user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/geocaches/GC7NX8F/notes",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"geocaches",
+								"GC7NX8F",
+								"notes"
+							]
+						},
+						"description": "This method will return no content."
+					},
+					"response": []
+				},
+				{
+					"name": "Get a single Geocache",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/geocaches/:referenceCode?lite=false&expand=&fields=referenceCode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"geocaches",
+								":referenceCode"
+							],
+							"query": [
+								{
+									"key": "lite",
+									"value": "false"
+								},
+								{
+									"key": "expand",
+									"value": ""
+								},
+								{
+									"key": "fields",
+									"value": "referenceCode"
+								}
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return a single Geocache."
+					},
+					"response": []
+				},
+				{
+					"name": "Get a list of images for a geocache",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/geocaches/:referenceCode/images?skip=0&take=10&fields=url",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"geocaches",
+								":referenceCode",
+								"images"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "take",
+									"value": "10"
+								},
+								{
+									"key": "fields",
+									"value": "url"
+								}
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return a list of images."
+					},
+					"response": []
+				},
+				{
+					"name": "Get a list of trackables in a geocache",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/geocaches/:referenceCode/trackables?skip=0&take=10&fields=referenceCode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"geocaches",
+								":referenceCode",
+								"trackables"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "take",
+									"value": "10"
+								},
+								{
+									"key": "fields",
+									"value": "referenceCode"
+								}
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return a list of trackables."
+					},
+					"response": []
+				},
+				{
+					"name": "Get a list of geocaches",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/geocaches?referenceCodes={{referenceCodes}}&lite=false&expand=&fields=referenceCode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"geocaches"
+							],
+							"query": [
+								{
+									"key": "referenceCodes",
+									"value": "{{referenceCodes}}"
+								},
+								{
+									"key": "lite",
+									"value": "false"
+								},
+								{
+									"key": "expand",
+									"value": ""
+								},
+								{
+									"key": "fields",
+									"value": "referenceCode"
+								}
+							],
+							"variable": [
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return a list of geocaches."
+					},
+					"response": []
+				},
+				{
+					"name": "Get a list of geocache logs for the specified geocache",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/geocaches/GC7NX8F/geocachelogs",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"geocaches",
+								"GC7NX8F",
+								"geocachelogs"
+							]
+						},
+						"description": "This method will return a list of geocache logs."
+					},
+					"response": []
+				},
+				{
+					"name": "Search for Geocaches",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/geocaches/search?q={{q}}&sort=&lite=true&skip=0&take=20&expand=&fields=referenceCode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"geocaches",
+								"search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "{{q}}"
+								},
+								{
+									"key": "sort",
+									"value": ""
+								},
+								{
+									"key": "lite",
+									"value": "true"
+								},
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "take",
+									"value": "20"
+								},
+								{
+									"key": "expand",
+									"value": ""
+								},
+								{
+									"key": "fields",
+									"value": "referenceCode"
+								}
+							],
+							"variable": [
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return search results."
+					},
+					"response": []
+				},
+				{
+					"name": "Get a list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/lists/:referenceCode?fields=referenceCode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"lists",
+								":referenceCode"
+							],
+							"query": [
+								{
+									"key": "fields",
+									"value": "referenceCode"
+								}
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return a list."
+					},
+					"response": []
+				},
+				{
+					"name": "Edit a list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "The list to update"
+						},
+						"url": {
+							"raw": "{{url}}/lists/:referenceCode?fields=referenceCode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"lists",
+								":referenceCode"
+							],
+							"query": [
+								{
+									"key": "fields",
+									"value": "referenceCode"
+								}
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return the updated geocache list."
+					},
+					"response": []
+				},
+				{
+					"name": "Remove a list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/lists/:referenceCode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"lists",
+								":referenceCode"
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will not return anything."
+					},
+					"response": []
+				},
+				{
+					"name": "Get a list of geocaches for a specified list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/lists/:referenceCode/geocaches?skip=0&take=10&lite=true&fields=referenceCode&expand=",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"lists",
+								":referenceCode",
+								"geocaches"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "take",
+									"value": "10"
+								},
+								{
+									"key": "lite",
+									"value": "true"
+								},
+								{
+									"key": "fields",
+									"value": "referenceCode"
+								},
+								{
+									"key": "expand",
+									"value": ""
+								}
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return a list of geocaches."
+					},
+					"response": []
+				},
+				{
+					"name": "Add a geocache to a list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "geocache to add to the list"
+						},
+						"url": {
+							"raw": "{{url}}/lists/:referenceCode/geocaches?fields=referenceCode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"lists",
+								":referenceCode",
+								"geocaches"
+							],
+							"query": [
+								{
+									"key": "fields",
+									"value": "referenceCode"
+								}
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return the geocache added."
+					},
+					"response": []
+				},
+				{
+					"name": "Create a list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "The list to add"
+						},
+						"url": {
+							"raw": "{{url}}/lists?fields=referenceCode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"lists"
+							],
+							"query": [
+								{
+									"key": "fields",
+									"value": "referenceCode"
+								}
+							],
+							"variable": [
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return the created geocache list."
+					},
+					"response": []
+				},
+				{
+					"name": "Add multiple geocaches to a list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "geocache reference codes to add to the list"
+						},
+						"url": {
+							"raw": "{{url}}/lists/:referenceCode/bulkgeocaches",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"lists",
+								":referenceCode",
+								"bulkgeocaches"
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return the successful and failed geocache codes."
+					},
+					"response": []
+				},
+				{
+					"name": "Remove a geocache from a list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/lists/:referenceCode/geocaches/:geocacheReferenceCode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"lists",
+								":referenceCode",
+								"geocaches",
+								":geocacheReferenceCode"
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "geocacheReferenceCode",
+									"value": "{{geocacheReferenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will not return anything."
+					},
+					"response": []
+				},
+				{
+					"name": "Get a single log draft for the calling user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/logdrafts/:referenceCode?fields=referenceCode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"logdrafts",
+								":referenceCode"
+							],
+							"query": [
+								{
+									"key": "fields",
+									"value": "referenceCode"
+								}
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return a single draft log."
+					},
+					"response": []
+				},
+				{
+					"name": "Update a log draft",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "The log draft to edit."
+						},
+						"url": {
+							"raw": "{{url}}/logdrafts/:referenceCode?fields=referenceCode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"logdrafts",
+								":referenceCode"
+							],
+							"query": [
+								{
+									"key": "fields",
+									"value": "referenceCode"
+								}
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return the log draft edited."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a log draft",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/logdrafts/:referenceCode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"logdrafts",
+								":referenceCode"
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return no content."
+					},
+					"response": []
+				},
+				{
+					"name": "Get a list of log drafts for the calling user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/logdrafts?skip=0&take=10&sort=dateloggedutc&fields=referenceCode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"logdrafts"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "take",
+									"value": "10"
+								},
+								{
+									"key": "sort",
+									"value": "dateloggedutc"
+								},
+								{
+									"key": "fields",
+									"value": "referenceCode"
+								}
+							],
+							"variable": [
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return a page (list + total) of log drafts."
+					},
+					"response": []
+				},
+				{
+					"name": "Create a log draft",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "The log draft to create."
+						},
+						"url": {
+							"raw": "{{url}}/logdrafts?fields=referenceCode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"logdrafts"
+							],
+							"query": [
+								{
+									"key": "fields",
+									"value": "referenceCode"
+								}
+							],
+							"variable": [
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return the log draft created."
+					},
+					"response": []
+				},
+				{
+					"name": "Get a list of log draft by geocache for the calling user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/geocaches/:referenceCode/logdrafts?skip=0&take=10&sort=dateloggedutc&fields=referenceCode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"geocaches",
+								":referenceCode",
+								"logdrafts"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "take",
+									"value": "10"
+								},
+								{
+									"key": "sort",
+									"value": "dateloggedutc"
+								},
+								{
+									"key": "fields",
+									"value": "referenceCode"
+								}
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return a page (list + total) of log draft."
+					},
+					"response": []
+				},
+				{
+					"name": "Promote Log Draft to Geocache Log",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "The draft to promote to log"
+						},
+						"url": {
+							"raw": "{{url}}/logdrafts/:referenceCode/promote",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"logdrafts",
+								":referenceCode",
+								"promote"
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return the promoted draft info."
+					},
+					"response": []
+				},
+				{
+					"name": "Add image to log draft",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "The image to upload and add"
+						},
+						"url": {
+							"raw": "{{url}}/logdrafts/:referenceCode/images?fields=url",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"logdrafts",
+								":referenceCode",
+								"images"
+							],
+							"query": [
+								{
+									"key": "fields",
+									"value": "url"
+								}
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return the image created."
+					},
+					"response": []
+				},
+				{
+					"name": "Get a single trackable log",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/trackablelogs/:referenceCode?fields=referencecode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"trackablelogs",
+								":referenceCode"
+							],
+							"query": [
+								{
+									"key": "fields",
+									"value": "referencecode"
+								}
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return a single trackable log."
+					},
+					"response": []
+				},
+				{
+					"name": "Update a trackable log",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "An instance of the log that is being modified. Text is the only modified parameter"
+						},
+						"url": {
+							"raw": "{{url}}/trackablelogs/:referenceCode?fields=referencecode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"trackablelogs",
+								":referenceCode"
+							],
+							"query": [
+								{
+									"key": "fields",
+									"value": "referencecode"
+								}
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return a trackable log."
+					},
+					"response": []
+				},
+				{
+					"name": "Deletes a trackable log",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/trackablelogs/:referenceCode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"trackablelogs",
+								":referenceCode"
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will not return anything in the body."
+					},
+					"response": []
+				},
+				{
+					"name": "Get a the images attached to a trackable log",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/trackablelogs/:referenceCode/images?skip=0&take=10&fields=referencecode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"trackablelogs",
+								":referenceCode",
+								"images"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "take",
+									"value": "10"
+								},
+								{
+									"key": "fields",
+									"value": "referencecode"
+								}
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return a list of images."
+					},
+					"response": []
+				},
+				{
+					"name": "Add an image to a trackable log",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "image to add"
+						},
+						"url": {
+							"raw": "{{url}}/trackablelogs/:referenceCode/images?fields=url",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"trackablelogs",
+								":referenceCode",
+								"images"
+							],
+							"query": [
+								{
+									"key": "fields",
+									"value": "url"
+								}
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return a single image."
+					},
+					"response": []
+				},
+				{
+					"name": "Add a log to a trackable",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "The log to add"
+						},
+						"url": {
+							"raw": "{{url}}/trackablelogs?fields=referenceCode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"trackablelogs"
+							],
+							"query": [
+								{
+									"key": "fields",
+									"value": "referenceCode"
+								}
+							],
+							"variable": [
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return the created trackable log."
+					},
+					"response": []
+				},
+				{
+					"name": "Get a single trackable",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/trackables/:referenceCode?fields=referenceCode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"trackables",
+								":referenceCode"
+							],
+							"query": [
+								{
+									"key": "fields",
+									"value": "referenceCode"
+								}
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return a single trackable."
+					},
+					"response": []
+				},
+				{
+					"name": "Gets a list of the calling user's trackables",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/trackables?type=1&skip=0&take=10&fields=referenceCode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"trackables"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "1"
+								},
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "take",
+									"value": "10"
+								},
+								{
+									"key": "fields",
+									"value": "referenceCode"
+								}
+							],
+							"variable": [
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return a list of trackables."
+					},
+					"response": []
+				},
+				{
+					"name": "Get the images attached to a trackable",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/trackables/:referenceCode/Images?skip=0&take=10&fields=url",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"trackables",
+								":referenceCode",
+								"Images"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "take",
+									"value": "10"
+								},
+								{
+									"key": "fields",
+									"value": "url"
+								}
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return a list of images."
+					},
+					"response": []
+				},
+				{
+					"name": "Get a list of trackable logs for the specified trackable",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/trackables/:referenceCode/trackablelogs?skip=0&take=10&fields=referenceCode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"trackables",
+								":referenceCode",
+								"trackablelogs"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "take",
+									"value": "10"
+								},
+								{
+									"key": "fields",
+									"value": "referenceCode"
+								}
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return a list of trackable logs."
+					},
+					"response": []
+				},
+				{
+					"name": "Get a user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "",
+								"value": ""
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/users/me?fields=username",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"me"
+							],
+							"query": [
+								{
+									"key": "fields",
+									"value": "username"
+								}
+							]
+						},
+						"description": "This method will return a user."
+					},
+					"response": []
+				},
+				{
+					"name": "Get the images attached to a user profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/users/:referenceCode/images?skip=0&take=10&fields=url",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"users",
+								":referenceCode",
+								"images"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "take",
+									"value": "10"
+								},
+								{
+									"key": "fields",
+									"value": "url"
+								}
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return a list of images."
+					},
+					"response": []
+				},
+				{
+					"name": "Get an account's souvenirs",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/users/:referenceCode/souvenirs?skip=0&take=20&fields=title",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"users",
+								":referenceCode",
+								"souvenirs"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "take",
+									"value": "20"
+								},
+								{
+									"key": "fields",
+									"value": "title"
+								}
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return a list of souvenirs."
+					},
+					"response": []
+				},
+				{
+					"name": "Get a list of users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/users?referenceCodes={{referenceCodes}}&usernames={{usernames}}&fields=referenceCode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "referenceCodes",
+									"value": "{{referenceCodes}}"
+								},
+								{
+									"key": "usernames",
+									"value": "{{usernames}}"
+								},
+								{
+									"key": "fields",
+									"value": "referenceCode"
+								}
+							],
+							"variable": [
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return a list of users."
+					},
+					"response": []
+				},
+				{
+					"name": "Get a list of user's geocache lists",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/users/:referenceCode/lists?types=bm&skip=0&take=10&fields=referenceCode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"users",
+								":referenceCode",
+								"lists"
+							],
+							"query": [
+								{
+									"key": "types",
+									"value": "bm"
+								},
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "take",
+									"value": "10"
+								},
+								{
+									"key": "fields",
+									"value": "referenceCode"
+								}
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return a list of geocache lists."
+					},
+					"response": []
+				},
+				{
+					"name": "Get a list of a user's geocache logs",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/users/:referenceCode/geocachelogs?skip=0&take=10&fields=referenceCode&includeArchived=false&logTypes={{logTypes}}",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"users",
+								":referenceCode",
+								"geocachelogs"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "take",
+									"value": "10"
+								},
+								{
+									"key": "fields",
+									"value": "referenceCode"
+								},
+								{
+									"key": "includeArchived",
+									"value": "false"
+								},
+								{
+									"key": "logTypes",
+									"value": "{{logTypes}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return a list of geocache lists."
+					},
+					"response": []
+				},
+				{
+					"name": "Validate User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/_users/:username/validate",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"_users",
+								":username",
+								"validate"
+							],
+							"variable": [
+								{
+									"key": "username",
+									"value": "{{username}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return an access token of the validated account. Request must be sent with content-type x-www-form-urlencoded"
+					},
+					"response": []
+				},
+				{
+					"name": "Get a list of user waypoints for the calling user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/userwaypoints?skip=0&take=10&includeCorrectedCoordinates=false&fields=referencecode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"userwaypoints"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "take",
+									"value": "10"
+								},
+								{
+									"key": "includeCorrectedCoordinates",
+									"value": "false"
+								},
+								{
+									"key": "fields",
+									"value": "referencecode"
+								}
+							],
+							"variable": [
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return an array of user waypoints."
+					},
+					"response": []
+				},
+				{
+					"name": "Create a user waypoint",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "The user waypoint to create."
+						},
+						"url": {
+							"raw": "{{url}}/userwaypoints?fields=referencecode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"userwaypoints"
+							],
+							"query": [
+								{
+									"key": "fields",
+									"value": "referencecode"
+								}
+							],
+							"variable": [
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return the user waypoint created."
+					},
+					"response": []
+				},
+				{
+					"name": "Gets the user waypoints for a geocache",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/geocaches/:referenceCode/userwaypoints?skip=0&take=10&includeCorrectedCoordinates=false&fields=referencecode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"geocaches",
+								":referenceCode",
+								"userwaypoints"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "take",
+									"value": "10"
+								},
+								{
+									"key": "includeCorrectedCoordinates",
+									"value": "false"
+								},
+								{
+									"key": "fields",
+									"value": "referencecode"
+								}
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return a paged list of userwaypoints"
+					},
+					"response": []
+				},
+				{
+					"name": "Update a user waypoint",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "The user waypoint to update."
+						},
+						"url": {
+							"raw": "{{url}}/userwaypoints/:referenceCode?fields=referencecode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"userwaypoints",
+								":referenceCode"
+							],
+							"query": [
+								{
+									"key": "fields",
+									"value": "referencecode"
+								}
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return the updated user waypoint."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a user waypoint",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/userwaypoints/:referenceCode",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"userwaypoints",
+								":referenceCode"
+							],
+							"variable": [
+								{
+									"key": "referenceCode",
+									"value": "{{referenceCode}}"
+								},
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method will return no content."
+					},
+					"response": []
+				},
+				{
+					"name": "Returns the reference code from an id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/utilities/referencecode?id={{id}}&codePrefix={{codePrefix}}",
+							"host": [
+								"v"
+							],
+							"port": "api-version",
+							"path": [
+								"utilities",
+								"referencecode"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{id}}"
+								},
+								{
+									"key": "codePrefix",
+									"value": "{{codePrefix}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "e79c348c-69bd-4b19-8251-eb0ea81191e6",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "c1122f10-9572-410c-a723-56240cdb7186",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "status",
+			"description": "Folder for status",
+			"item": [
+				{
+					"name": "Returns Ok.",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "https://api.groundspeak.com/status/ping?api-version=1.0",
+							"protocol": "https",
+							"host": [
+								"api",
+								"groundspeak",
+								"com"
+							],
+							"path": [
+								"status",
+								"ping"
+							],
+							"query": [
+								{
+									"key": "api-version",
+									"value": "1.0"
+								}
+							]
+						},
+						"description": "This method return Ok."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "0ccf0048-a435-4ee8-ac89-96217d1f7565",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "17b54198-1b1e-476c-b80e-da8d0defe279",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

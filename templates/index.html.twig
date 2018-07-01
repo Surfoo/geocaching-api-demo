@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <!--[if IE]>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <![endif]-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Geocaching PHP SDK Demo</title>
+        <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css" />
+        <style type="text/css">
+        .container form {
+            margin-bottom: 1em;
+        }
+        h4 span {
+            width: 5em;
+            display: inline-block;
+        }
+        h4 button {
+            vertical-align: middle;
+            width: 60px;
+        }
+        footer ul {
+            padding: 0;
+            font-size: 1.2em;
+        }
+        footer ul li{
+            display: inline;
+        }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Geocaching PHP SDK Demo</h1>
+            <form action="" method="post" role="form">
+                <fieldset>
+                    <div class="form-group">
+                        <label>Choose your environment to test the API:</label><br />
+                        <label for="staging" class="checkbox-inline">
+                            <input type="radio" name="environment" value="staging" id="staging" required{% if session.environment is not defined or session.environment == "staging" %} checked{% endif %}{% if session.accessToken is defined %} disabled{% endif %} /> Staging</label>
+                        <label for="production" class="checkbox-inline">
+                            <input type="radio" name="environment" value="production" id="production" required{% if session.environment == "production" %} checked{% endif %}{% if session.accessToken is defined %} disabled{% endif %} /> Production</label>
+                    </div>
+                    <input type="submit" name="oauth" value="OAuth dance!" class="btn btn-primary"{% if session.accessToken is defined %} disabled{% endif %} />
+                    <input type="submit" name="reset" value="Reset OAuth Token" class="btn btn-warning" />
+                </fieldset>
+            </form>
+        
+            {# {% if session.accessToken is defined %}
+                <p>Access Token:<br /><pre>{{ session.accessToken }}</pre></p>
+            {% endif %}
+
+            {% if session.refreshToken is defined %}
+                <p>Refresh Token:<br /><pre>{{ session.refreshToken }}</pre></p>
+            {% endif %} #}
+
+            {% if http_debug is defined %}
+                <div class="alert alert-info" role="alert">
+                    <h4><span>Http Log</span> <button type="button" class="btn btn-sm btn-info show_log">Show</button></h4>
+                    <pre style="display: none;"><hr />{{ http_debug }}</pre>
+                </div>
+            {% endif %}
+
+            {% if response is defined %}
+                <div class="alert alert-success">
+                    <h4><span>Headers</span> <button type="button" class="btn btn-sm btn-success show_log">Hide</button></h4>
+                    <pre><hr />{{ response.headers|print_r }}</pre>
+
+                    <h4><span>Response</span> <button type="button" class="btn btn-sm btn-success show_log">Hide</button></h4>
+                    <pre><hr />{{ response.body|print_r }}</pre>
+                </div>
+            {% endif %}
+
+            {% if exception is defined %}
+                <div class="alert alert-warning" role="alert">
+                    <h4>{{ exception.type }}</h4>
+                    <hr />
+                    <strong>Message:</strong> <code>{{ exception.message }}</code><br />
+                    <strong>Code:</strong> <code>{{ exception.code }}</code><br />
+                    <strong>Trace:</strong> <button type="button" class="btn btn-sm btn-warning show_trace">Show</button>
+                    <pre style="display: none;">{{ exception.trace }}</pre>
+                </div>
+            {% endif %}
+
+            <footer>
+                <hr />
+                <ul>
+                    <li><a href="https://github.com/Surfoo/geocaching-api">GitHub Project</a></li> &middot;
+                    <li><a href="docs/">Documentation</a></li> &middot;
+                    <li><a href="monitoring.php">Monitoring</a></li>
+                </ul>
+            </footer>
+        </div>
+        <a href="https://github.com/surfoo/geocaching-api/">
+            <img style="position: absolute; top: 0; right: 0; border: 0;"
+                 src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67"
+                 alt="Fork me on GitHub"
+                 data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png">
+        </a>
+
+        <script src="assets/jquery/jquery.min.js" charset="utf-8"></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js" charset="utf-8"></script>
+        <script type="text/javascript">
+            $.fn.extend({
+                toggleText: function(a, b) {
+                    return this.text(this.text() == b ? a : b);
+                }
+            });
+
+            $('.show_log').on('click', function(e) {
+                $(this).parent().next().toggle();
+                $(this).toggleText('Show', 'Hide');
+            });
+            $('.show_trace').on('click', function(e) {
+                $(this).next().toggle();
+                $(this).toggleText('Show', 'Hide');
+            });
+        </script>
+    </body>
+</html>

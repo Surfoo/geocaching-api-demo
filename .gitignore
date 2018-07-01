@@ -1,0 +1,4 @@
+/vendor/
+app/config.php
+web/assets/bootstrap
+web/assets/jquery
