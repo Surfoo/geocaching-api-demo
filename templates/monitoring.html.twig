@@ -1,0 +1,50 @@
+{% extends "main.html.twig" %}
+
+{% block main %}
+    <h2>Monitoring on the Groundspeak API</h2>
+
+    <p class="alert alert-info">
+        This page keeps an eye on changes about the <a href="https://staging.api.groundspeak.com/documentation">Groundspeak API</a> every 24 hours.<br />
+    </p>
+
+    {% if exception is defined %}
+        <div class="alert alert-danger">
+            <strong>{{ exception }}</strong>
+        </div>
+    {% else %}
+        <p>Swagger: <a href="{{ uri_swagger_file }}">{{ uri_swagger_file }}</a> ({{ swaggerCreatedOn }})</p>
+
+        {% if positive_diff_methods is not empty %}
+            <div class="alert alert-warning">
+                <strong>These methods are missing in the Geocaching SDK PHP:</strong>
+                <ul>
+                {% for method in positive_diff_methods %}
+                    <li>{{ method }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <div class="alert alert-success">
+                <p><strong>Checks on missing methods in Geocaching SDK PHP:</strong><br />
+                All clear!</p>
+            </div>
+        {% endif %}
+
+        {% if negative_diff_methods is not empty %}
+            <div class="alert alert-warning">
+                <strong>These methods are missing in the Groundspeak API:</strong>
+                <ul>
+                {% for method in negative_diff_methods %}
+                    <li>{{ method }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <div class="alert alert-success">
+                <p><strong>Checks on missing methods in Geocaching REST API:</strong><br />
+                All clear!</p>
+            </div>
+        {% endif %}
+    {% endif %}
+
+{% endblock %}

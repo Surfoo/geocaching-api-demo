@@ -4,7 +4,7 @@ require dirname(__DIR__) . '/app/app.php';
 
 use Geocaching\GeocachingFactory;
 use Geocaching\Exception\GeocachingSdkException;
-use League\OAuth2\Client\Provider\Geocaching;
+use League\OAuth2\Client\Provider\Geocaching as GeocachingProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 
 $twig_vars = [];
@@ -17,19 +17,21 @@ if (isset($_POST['reset'])) {
         setcookie(session_name(), '', 0);
     }
     session_destroy();
-    header('Location: index.php');
+    header('Location: /');
     exit(0);
 }
 
 if (isset($_POST['environment'])) {
-    $_SESSION['environment']  = $_POST['environment'] == 'production' ? 'production' : 'staging';
+    $_SESSION['environment']  = $_POST['environment'] == GeocachingFactory::ENVIRONMENT_PRODUCTION ?
+                                                            GeocachingFactory::ENVIRONMENT_PRODUCTION :
+                                                            GeocachingFactory::ENVIRONMENT_STAGING;
     $_SESSION['oauth_key']    = $app[$_SESSION['environment']]['oauth_key'];
     $_SESSION['oauth_secret'] = $app[$_SESSION['environment']]['oauth_secret'];
     $_SESSION['callback_url'] = $app[$_SESSION['environment']]['callback_url'];
 }
 
 if (isset($_SESSION['environment'])) {
-    $provider = new Geocaching([
+    $provider = new GeocachingProvider([
         'clientId'       => $_SESSION['oauth_key'],
         'clientSecret'   => $_SESSION['oauth_secret'],
         'redirectUri'    => $_SESSION['callback_url'],
@@ -52,16 +54,19 @@ if (isset($_SESSION['environment']) && !isset($_SESSION['accessToken'])) {
     
         // Redirect the user to the authorization URL.
         header('Location: ' . $authorizationUrl);
-        exit;
+        exit(0);
     
     // Check given state against previously stored one to mitigate CSRF attack
     } elseif (empty($_GET['state']) || (isset($_SESSION['oauth2state']) && $_GET['state'] !== $_SESSION['oauth2state'])) {
     
+        $twig_vars['exception'] = [
+            'type'    => 'Invalid State',
+            'message' => $_GET['state'] . ' != ' . $_SESSION['oauth2state']
+        ];
+
         if (isset($_SESSION['oauth2state'])) {
             unset($_SESSION['oauth2state']);
         }
-        exit('Invalid state');
-    
     } else {
         try {
             // Try to get an access token using the authorization code grant.
@@ -74,6 +79,7 @@ if (isset($_SESSION['environment']) && !isset($_SESSION['accessToken'])) {
             $_SESSION['refreshToken'] = $accessToken->getRefreshToken();
             $_SESSION['expired_in']   = $accessToken->getRefreshToken();
             $_SESSION['hasExpired']   = $accessToken->hasExpired();
+            $_SESSION['code']         = $_GET['code'];
         } catch (IdentityProviderException $e) {
             // Failed to get the access token or user details.
             $twig_vars['exception'] = [
@@ -118,7 +124,6 @@ if (!empty($_SESSION['accessToken'])) {
         $twig_vars['http_debug'] = print_r($httpDebugLog, true);
     }
 }
-
 
 $twig_vars['session'] = $_SESSION;
 

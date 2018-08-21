@@ -1,6 +1,6 @@
 {
     "name": "surfoo/geocaching-api-demo",
-    "description": "Demo of the Geocaching API",
+    "description": "Geocaching PHP SDK Demo",
     "type": "project",
     "license": "MIT",
     "authors": [
