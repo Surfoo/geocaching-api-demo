@@ -104,13 +104,15 @@ if (!empty($_SESSION['accessToken'])) {
 
         $httpResponse = $geocachingApi->getUserLists('me', ['types' => 'pq', 'fields' => 'referenceCode,name,url']);
 
-        $response['body']    = $httpResponse->getBody(true);
+        $response['body']    = $httpResponse->getBody();
         $response['headers'] = $httpResponse->getHeaders();
+        $response['statusCode'] = sprintf('%d %s', $httpResponse->getStatusCode(), $httpResponse->getReasonPhrase());
 
         $twig_vars['response'] = $response;
         
     } catch (\Exception $e) {
         $class = explode('\\', get_class($e));
+
         $twig_vars['exception'] = [
             'type'    => array_pop($class),
             'message' => $e->getMessage(),

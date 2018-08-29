@@ -20,9 +20,7 @@ $twig_options = ['debug' => $debug, 'cache' => false];
 $loader = new Twig_Loader_Filesystem(ROOT . '/templates');
 $twig   = new Twig_Environment($loader, $twig_options);
 
-if($debug) {
-    $twig->addExtension(new Twig_Extension_Debug());
-}
+$twig->addExtension(new Twig_Extension_Debug());
 
 $twig->addFilter(new Twig_Filter('print_r', function(array $array) {
     return print_r($array, true);

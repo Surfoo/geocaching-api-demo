@@ -54,12 +54,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Surfoo/geocaching-api.git",
-                "reference": "18d322856163fa5040ab2b199da336a69bf74362"
+                "reference": "f96cb35bf915d69fcaf262ad814426989bf95f44"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Surfoo/geocaching-api/zipball/18d322856163fa5040ab2b199da336a69bf74362",
-                "reference": "18d322856163fa5040ab2b199da336a69bf74362",
+                "url": "https://api.github.com/repos/Surfoo/geocaching-api/zipball/f96cb35bf915d69fcaf262ad814426989bf95f44",
+                "reference": "f96cb35bf915d69fcaf262ad814426989bf95f44",
                 "shasum": ""
             },
             "require": {
@@ -98,7 +98,7 @@
                 "php",
                 "sdk"
             ],
-            "time": "2018-08-24T22:09:59+00:00"
+            "time": "2018-08-29T21:48:04+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -625,16 +625,16 @@
         },
         {
             "name": "symfony/debug",
-            "version": "v4.1.3",
+            "version": "v4.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
-                "reference": "9316545571f079c4dd183e674721d9dc783ce196"
+                "reference": "47ead688f1f2877f3f14219670f52e4722ee7052"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/debug/zipball/9316545571f079c4dd183e674721d9dc783ce196",
-                "reference": "9316545571f079c4dd183e674721d9dc783ce196",
+                "url": "https://api.github.com/repos/symfony/debug/zipball/47ead688f1f2877f3f14219670f52e4722ee7052",
+                "reference": "47ead688f1f2877f3f14219670f52e4722ee7052",
                 "shasum": ""
             },
             "require": {
@@ -677,7 +677,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2018-07-26T11:24:31+00:00"
+            "time": "2018-08-03T11:13:38+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",

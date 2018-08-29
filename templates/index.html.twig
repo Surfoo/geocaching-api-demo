@@ -15,13 +15,13 @@
         </fieldset>
     </form>
 
-        {# {% if session.accessToken is defined %}
+        {% if session.accessToken is defined %}
             <p>Access Token:<br /><pre>{{ session.accessToken }}</pre></p>
         {% endif %}
 
         {% if session.refreshToken is defined %}
             <p>Refresh Token:<br /><pre>{{ session.refreshToken }}</pre></p>
-        {% endif %} #}
+        {% endif %}
 
         {% if http_debug is defined %}
             <div class="alert alert-info" role="alert">
@@ -35,8 +35,10 @@
                 <h4><span>Headers</span> <button type="button" class="btn btn-sm btn-success show_log">Hide</button></h4>
                 <pre><hr />{{ response.headers|print_r }}</pre>
 
-                <h4><span>Response</span> <button type="button" class="btn btn-sm btn-success show_log">Hide</button></h4>
-                <pre><hr />{{ response.body|print_r }}</pre>
+                <h4><span>Response</span>  <button type="button" class="btn btn-sm btn-success show_log">Hide</button></h4>
+                <pre><hr />Status Code: {{ response.statusCode }}
+                    <br />
+                    {{- dump(response.body) }}</pre>
             </div>
         {% endif %}
 
