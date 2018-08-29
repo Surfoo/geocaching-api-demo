@@ -54,12 +54,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Surfoo/geocaching-api.git",
-                "reference": "f96cb35bf915d69fcaf262ad814426989bf95f44"
+                "reference": "5d862547a0a2dd15563e7e7444668e4b15e1b24d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Surfoo/geocaching-api/zipball/f96cb35bf915d69fcaf262ad814426989bf95f44",
-                "reference": "f96cb35bf915d69fcaf262ad814426989bf95f44",
+                "url": "https://api.github.com/repos/Surfoo/geocaching-api/zipball/5d862547a0a2dd15563e7e7444668e4b15e1b24d",
+                "reference": "5d862547a0a2dd15563e7e7444668e4b15e1b24d",
                 "shasum": ""
             },
             "require": {
@@ -98,7 +98,7 @@
                 "php",
                 "sdk"
             ],
-            "time": "2018-08-29T21:48:04+00:00"
+            "time": "2018-08-29T22:03:31+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
