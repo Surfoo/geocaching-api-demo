@@ -14,13 +14,16 @@
             <input type="submit" name="reset" value="Reset OAuth Token" class="btn btn-warning" />
         </fieldset>
     </form>
-
         {% if session.accessToken is defined %}
-            <p>Access Token:<br /><pre>{{ session.accessToken }}</pre></p>
-        {% endif %}
-
-        {% if session.refreshToken is defined %}
-            <p>Refresh Token:<br /><pre>{{ session.refreshToken }}</pre></p>
+            <div class="alert alert-secondary" role="alert">
+                <h4>Token information</h4>
+                <hr />
+                <ul id="tokenInformation">
+                    <li>Access Token: <code  title="length = {{ session.accessToken|length }}" style="overflow-wrap: break-word;">{{ session.accessToken[:80] ~ '...' }}</code></li>
+                    <li>Refresh Token: <code title="length = {{ session.refreshToken|length }}">{{ session.refreshToken }}</code></li>
+                    <li>Expiration time: <code title="Timestamp: {{ session.expiredTimestamp }}">{{ session.expiredTimestamp|date('r') }}</code> <a href="?refresh" class="btn btn-secondary btn-sm">Refresh the token</a></li>
+                </ul>
+            </div>
         {% endif %}
 
         {% if http_debug is defined %}

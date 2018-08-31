@@ -6,6 +6,7 @@ use Geocaching\GeocachingFactory;
 use Geocaching\Exception\GeocachingSdkException;
 use League\OAuth2\Client\Provider\Geocaching as GeocachingProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
+use League\OAuth2\Client\Token\AccessToken;
 
 $twig_vars = [];
 
@@ -25,21 +26,24 @@ if (isset($_POST['environment'])) {
     $_SESSION['environment']  = $_POST['environment'] == GeocachingFactory::ENVIRONMENT_PRODUCTION ?
                                                             GeocachingFactory::ENVIRONMENT_PRODUCTION :
                                                             GeocachingFactory::ENVIRONMENT_STAGING;
-    $_SESSION['oauth_key']    = $app[$_SESSION['environment']]['oauth_key'];
-    $_SESSION['oauth_secret'] = $app[$_SESSION['environment']]['oauth_secret'];
-    $_SESSION['callback_url'] = $app[$_SESSION['environment']]['callback_url'];
 }
 
 if (isset($_SESSION['environment'])) {
     $provider = new GeocachingProvider([
-        'clientId'       => $_SESSION['oauth_key'],
-        'clientSecret'   => $_SESSION['oauth_secret'],
-        'redirectUri'    => $_SESSION['callback_url'],
+        'clientId'       => $app[$_SESSION['environment']]['oauth_key'],
+        'clientSecret'   => $app[$_SESSION['environment']]['oauth_secret'],
+        'redirectUri'    => $app[$_SESSION['environment']]['callback_url'],
         'response_type'  => 'code',
         'scope'          => '*',
         'environment'    => $_SESSION['environment'],
     ]);
 }
+
+if (isset($_GET['refresh']) && isset($_SESSION['environment'])) {
+    $accessToken = refreshToken($provider, unserialize($_SESSION['object']));
+    $_SESSION['object'] = serialize($accessToken);
+}
+
 
 if (isset($_SESSION['environment']) && !isset($_SESSION['accessToken'])) {
 
@@ -77,9 +81,9 @@ if (isset($_SESSION['environment']) && !isset($_SESSION['accessToken'])) {
             // requests against the service provider's API.
             $_SESSION['accessToken']  = $accessToken->getToken();
             $_SESSION['refreshToken'] = $accessToken->getRefreshToken();
-            $_SESSION['expired_in']   = $accessToken->getRefreshToken();
+            $_SESSION['expiredTimestamp'] = $accessToken->getExpires();
             $_SESSION['hasExpired']   = $accessToken->hasExpired();
-            $_SESSION['code']         = $_GET['code'];
+            $_SESSION['object']       = serialize($accessToken);
         } catch (IdentityProviderException $e) {
             // Failed to get the access token or user details.
             $twig_vars['exception'] = [
@@ -94,6 +98,14 @@ if (isset($_SESSION['environment']) && !isset($_SESSION['accessToken'])) {
 
 if (!empty($_SESSION['accessToken'])) {
     try {
+
+        $accessToken = unserialize($_SESSION['object']);
+        //Check expiration token, and renew
+        if ($accessToken->hasExpired()) {
+            $accessToken = refreshToken($provider, $accessToken);
+            $_SESSION['object'] = serialize($accessToken);
+        }
+
         $httpDebug = true;
         $geocachingApi = GeocachingFactory::createSdk($_SESSION['accessToken'], 
                                                       $_SESSION['environment'], 
@@ -102,14 +114,14 @@ if (!empty($_SESSION['accessToken'])) {
                                                         'timeout' => 10,
                                                     ]);
 
-        $httpResponse = $geocachingApi->getUserLists('me', ['types' => 'pq', 'fields' => 'referenceCode,name,url']);
+        $httpResponse = $geocachingApi->getUser('me', ['fields' => 'referenceCode,username,hideCount,findCount,favoritePoints,membershipLevelId,avatarUrl,bannerUrl,url,homeCoordinates,geocacheLimits']);
+
 
         $response['body']    = $httpResponse->getBody();
         $response['headers'] = $httpResponse->getHeaders();
         $response['statusCode'] = sprintf('%d %s', $httpResponse->getStatusCode(), $httpResponse->getReasonPhrase());
 
         $twig_vars['response'] = $response;
-        
     } catch (\Exception $e) {
         $class = explode('\\', get_class($e));
 
@@ -130,3 +142,21 @@ if (!empty($_SESSION['accessToken'])) {
 $twig_vars['session'] = $_SESSION;
 
 echo $twig->render('index.html.twig', $twig_vars);
+
+/**
+ * @param League\OAuth2\Client\Provider\Geocaching $provider
+ * @param League\OAuth2\Client\Token\AccessToken $existingAccessToken
+ */
+function refreshToken(GeocachingProvider $provider, AccessToken $existingAccessToken) {
+
+    $accessToken = $provider->getAccessToken('refresh_token', [
+        'refresh_token' => $existingAccessToken->getRefreshToken()
+    ]);
+
+    $_SESSION['accessToken']  = $accessToken->getToken();
+    $_SESSION['refreshToken'] = $accessToken->getRefreshToken();
+    $_SESSION['expiredTimestamp'] = $accessToken->getExpires();
+    $_SESSION['hasExpired']   = $accessToken->hasExpired();
+
+    return $accessToken;
+}
