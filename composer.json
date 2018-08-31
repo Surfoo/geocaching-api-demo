@@ -11,7 +11,7 @@
     ],
     "require": {
         "twig/twig": "^2.4",
-        "geocaching/api": "dev-rest",
+        "surfoo/geocaching-php-sdk": "dev-rest",
         "twbs/bootstrap": "^4.1",
         "components/jquery": "^3.3",
         "symfony/debug": "^4.1"
