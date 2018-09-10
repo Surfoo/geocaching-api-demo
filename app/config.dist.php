@@ -1,16 +1,13 @@
 <?php
 
-$app['production'] = [
-    'oauth_key'    => '',
-    'oauth_secret' => '',
-    'callback_url' => '',
-];
-
 $app['staging'] = [
     'oauth_key'    => '',
     'oauth_secret' => '',
-    'callback_url' => '',
+    'callback_url' => 'http://localhost:8000',
 ];
+
+// 'staging' or 'production'
+$app['environment'] = 'staging';
 
 define('ROOT', dirname(__DIR__));
 

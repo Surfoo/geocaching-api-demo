@@ -3,13 +3,7 @@
 {% block main %}
     <form action="" method="post" role="form">
         <fieldset>
-            <div class="form-group">
-                <label>Choose your environment to test the API:</label><br />
-                <label for="staging" class="checkbox-inline">
-                    <input type="radio" name="environment" value="staging" id="staging" required{% if session.environment is not defined or session.environment == "staging" %} checked{% endif %}{% if session.accessToken is defined %} disabled{% endif %} /> Staging</label>
-                <label for="production" class="checkbox-inline">
-                    <input type="radio" name="environment" value="production" id="production" required{% if session.environment == "production" %} checked{% endif %}{% if session.accessToken is defined %} disabled{% endif %} /> Production</label>
-            </div>
+            <p><strong>Environment:</strong> {{ environment }}</p>
             <input type="submit" name="oauth" value="OAuth dance!" class="btn btn-primary"{% if session.accessToken is defined %} disabled{% endif %} />
             <input type="submit" name="reset" value="Reset OAuth Token" class="btn btn-warning" />
         </fieldset>
@@ -33,6 +27,17 @@
             </div>
         {% endif %}
 
+        {% if exception is defined %}
+            <div class="alert alert-warning" role="alert">
+                <h4>{{ exception.type }}</h4>
+                <hr />
+                <strong>Message:</strong> <code>{{ exception.message }}</code><br />
+                {% if exception.code is defined %}<strong>Code:</strong> <code>{{ exception.code }}</code><br />{% endif %}
+                {% if exception.trace is defined %}<strong>Trace:</strong> <button type="button" class="btn btn-sm btn-warning show_trace">Show</button>
+                <pre style="display: none;">{{ exception.trace }}</pre>{% endif %}
+            </div>
+        {% endif %}
+
         {% if response is defined %}
             <div class="alert alert-success">
                 <h4><span>Headers</span> <button type="button" class="btn btn-sm btn-success show_log">Hide</button></h4>
@@ -42,17 +47,6 @@
                 <pre><hr />Status Code: {{ response.statusCode }}
                     <br />
                     {{- dump(response.body) }}</pre>
-            </div>
-        {% endif %}
-
-        {% if exception is defined %}
-            <div class="alert alert-warning" role="alert">
-                <h4>{{ exception.type }}</h4>
-                <hr />
-                <strong>Message:</strong> <code>{{ exception.message }}</code><br />
-                {% if exception.code is defined %}<strong>Code:</strong> <code>{{ exception.code }}</code><br />{% endif %}
-                {% if exception.trace is defined %}<strong>Trace:</strong> <button type="button" class="btn btn-sm btn-warning show_trace">Show</button>
-                <pre style="display: none;">{{ exception.trace }}</pre>{% endif %}
             </div>
         {% endif %}
 {% endblock %}

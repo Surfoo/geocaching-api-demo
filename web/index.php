@@ -5,6 +5,7 @@ require dirname(__DIR__) . '/app/app.php';
 use Geocaching\GeocachingFactory;
 use Geocaching\Exception\GeocachingSdkException;
 use League\OAuth2\Client\Provider\Geocaching as GeocachingProvider;
+use League\OAuth2\Client\Provider\Exception\GeocachingIdentityProviderException;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessToken;
 
@@ -12,7 +13,6 @@ $twig_vars = [];
 
 // OAuth reset
 if (isset($_POST['reset'])) {
-    $_SESSION = array();
     if (ini_get("session.use_cookies")) {
         $params = session_get_cookie_params();
         setcookie(session_name(), '', 0);
@@ -22,47 +22,50 @@ if (isset($_POST['reset'])) {
     exit(0);
 }
 
-if (isset($_POST['environment'])) {
-    $_SESSION['environment']  = $_POST['environment'] == GeocachingFactory::ENVIRONMENT_PRODUCTION ?
-                                                            GeocachingFactory::ENVIRONMENT_PRODUCTION :
-                                                            GeocachingFactory::ENVIRONMENT_STAGING;
+// Create Provider
+$provider = new GeocachingProvider([
+    'clientId'       => $app[$app['environment']]['oauth_key'],
+    'clientSecret'   => $app[$app['environment']]['oauth_secret'],
+    'redirectUri'    => $app[$app['environment']]['callback_url'],
+    'response_type'  => 'code',
+    'scope'          => '*',
+    'environment'    => $app['environment'],
+]);
+
+// Refresh the OAuth Token
+if (isset($_GET['refresh'])) {
+    try {
+        $accessToken = refreshToken($provider, unserialize($_SESSION['object']));
+        $_SESSION['object'] = serialize($accessToken);
+    } catch(GeocachingIdentityProviderException $e) {
+        $twig_vars['exception'] = [
+            'type'    => 'GeocachingIdentityProviderException',
+            'message' => $e->getMessage(),
+            'code'    => $e->getCode(),
+            'trace'   => print_r($e->getTrace(), true),
+        ];
+    }
 }
 
-if (isset($_SESSION['environment'])) {
-    $provider = new GeocachingProvider([
-        'clientId'       => $app[$_SESSION['environment']]['oauth_key'],
-        'clientSecret'   => $app[$_SESSION['environment']]['oauth_secret'],
-        'redirectUri'    => $app[$_SESSION['environment']]['callback_url'],
-        'response_type'  => 'code',
-        'scope'          => '*',
-        'environment'    => $_SESSION['environment'],
-    ]);
+// Run the OAuth process
+if (isset($_POST['oauth'])) {
+    // Fetch the authorization URL from the provider; this returns the
+    // urlAuthorize option and generates and applies any necessary parameters
+    // (e.g. state).
+    $authorizationUrl = $provider->getAuthorizationUrl();
+
+    // Get the state generated for you and store it to the session.
+    $_SESSION['oauth2state'] = $provider->getState();
+
+    // Redirect the user to the authorization URL.
+    header('Location: ' . $authorizationUrl);
+    exit(0);
 }
 
-if (isset($_GET['refresh']) && isset($_SESSION['environment'])) {
-    $accessToken = refreshToken($provider, unserialize($_SESSION['object']));
-    $_SESSION['object'] = serialize($accessToken);
-}
-
-
-if (isset($_SESSION['environment']) && !isset($_SESSION['accessToken'])) {
-
-    if (!isset($_GET['code'])) {
-        // Fetch the authorization URL from the provider; this returns the
-        // urlAuthorize option and generates and applies any necessary parameters
-        // (e.g. state).
-        $authorizationUrl = $provider->getAuthorizationUrl();
-
-        // Get the state generated for you and store it to the session.
-        $_SESSION['oauth2state'] = $provider->getState();
-    
-        // Redirect the user to the authorization URL.
-        header('Location: ' . $authorizationUrl);
-        exit(0);
-    
+// Return to the callback URL after the user gave the permission
+if (isset($_SESSION['oauth2state'])) {
     // Check given state against previously stored one to mitigate CSRF attack
-    } elseif (empty($_GET['state']) || (isset($_SESSION['oauth2state']) && $_GET['state'] !== $_SESSION['oauth2state'])) {
-    
+    if (empty($_GET['state']) || (isset($_SESSION['oauth2state']) && $_GET['state'] !== $_SESSION['oauth2state'])) {
         $twig_vars['exception'] = [
             'type'    => 'Invalid State',
             'message' => $_GET['state'] . ' != ' . $_SESSION['oauth2state']
@@ -72,6 +75,7 @@ if (isset($_SESSION['environment']) && !isset($_SESSION['accessToken'])) {
             unset($_SESSION['oauth2state']);
         }
     } else {
+        // state is OK, retrive the access token
         try {
             // Try to get an access token using the authorization code grant.
             $accessToken = $provider->getAccessToken('authorization_code', [
@@ -79,11 +83,11 @@ if (isset($_SESSION['environment']) && !isset($_SESSION['accessToken'])) {
             ]);
             // We have an access token, which we may use in authenticated
             // requests against the service provider's API.
-            $_SESSION['accessToken']  = $accessToken->getToken();
-            $_SESSION['refreshToken'] = $accessToken->getRefreshToken();
+            $_SESSION['accessToken']      = $accessToken->getToken();
+            $_SESSION['refreshToken']     = $accessToken->getRefreshToken();
             $_SESSION['expiredTimestamp'] = $accessToken->getExpires();
-            $_SESSION['hasExpired']   = $accessToken->hasExpired();
-            $_SESSION['object']       = serialize($accessToken);
+            $_SESSION['hasExpired']       = $accessToken->hasExpired();
+            $_SESSION['object']           = serialize($accessToken);
         } catch (IdentityProviderException $e) {
             // Failed to get the access token or user details.
             $twig_vars['exception'] = [
@@ -94,26 +98,29 @@ if (isset($_SESSION['environment']) && !isset($_SESSION['accessToken'])) {
             ];
         }
     }
+
 }
 
 if (!empty($_SESSION['accessToken'])) {
     try {
-
         $accessToken = unserialize($_SESSION['object']);
         //Check expiration token, and renew
         if ($accessToken->hasExpired()) {
-            $accessToken = refreshToken($provider, $accessToken);
-            $_SESSION['object'] = serialize($accessToken);
+            try {
+                $accessToken = refreshToken($provider, $accessToken);
+                $_SESSION['object'] = serialize($accessToken);
+            } catch(GeocachingIdentityProviderException $e) {
+                echo $e->getMessage();
+            }
         }
 
         $httpDebug = true;
-        $geocachingApi = GeocachingFactory::createSdk($_SESSION['accessToken'], 
-                                                      $_SESSION['environment'], 
+        $geocachingApi = GeocachingFactory::createSdk($_SESSION['accessToken'], $app['environment'],
                                                     [
                                                         'debug'   => $httpDebug,
                                                         'timeout' => 10,
                                                     ]);
-
+        // request the API
         $httpResponse = $geocachingApi->getUser('me', ['fields' => 'referenceCode,username,hideCount,findCount,favoritePoints,membershipLevelId,avatarUrl,bannerUrl,url,homeCoordinates,geocacheLimits']);
 
 
@@ -139,7 +146,8 @@ if (!empty($_SESSION['accessToken'])) {
     }
 }
 
-$twig_vars['session'] = $_SESSION;
+$twig_vars['environment'] = $app['environment'];
+$twig_vars['session']     = $_SESSION;
 
 echo $twig->render('index.html.twig', $twig_vars);
 
@@ -153,10 +161,10 @@ function refreshToken(GeocachingProvider $provider, AccessToken $existingAccessT
         'refresh_token' => $existingAccessToken->getRefreshToken()
     ]);
 
-    $_SESSION['accessToken']  = $accessToken->getToken();
-    $_SESSION['refreshToken'] = $accessToken->getRefreshToken();
+    $_SESSION['accessToken']      = $accessToken->getToken();
+    $_SESSION['refreshToken']     = $accessToken->getRefreshToken();
     $_SESSION['expiredTimestamp'] = $accessToken->getExpires();
-    $_SESSION['hasExpired']   = $accessToken->hasExpired();
+    $_SESSION['hasExpired']       = $accessToken->hasExpired();
 
     return $accessToken;
 }

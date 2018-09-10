@@ -12,7 +12,7 @@ $iterator = Finder::create()
     ->name('*.php')
     ->exclude('Resources')
     ->exclude('Tests')
-    ->in('vendor/geocaching/api/src')
+    ->in('vendor/surfoo/geocaching-php-sdk/src')
 ;
 
 return new Sami($iterator, [
