@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5759d581368f0f004045e1a23702ebb0",
+    "content-hash": "afa3167437b637bf951e388e38dfe5b8",
     "packages": [
         {
             "name": "components/jquery",
@@ -522,20 +522,20 @@
         },
         {
             "name": "surfoo/geocaching-php-sdk",
-            "version": "dev-rest",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Surfoo/geocaching-php-sdk.git",
-                "reference": "ce911a3c2f6e4e8248d5d76dbd24592cbcf80bd8"
+                "reference": "82080cb8e24b4759eca450f082c6820b27a0ca4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Surfoo/geocaching-php-sdk/zipball/ce911a3c2f6e4e8248d5d76dbd24592cbcf80bd8",
-                "reference": "ce911a3c2f6e4e8248d5d76dbd24592cbcf80bd8",
+                "url": "https://api.github.com/repos/Surfoo/geocaching-php-sdk/zipball/82080cb8e24b4759eca450f082c6820b27a0ca4c",
+                "reference": "82080cb8e24b4759eca450f082c6820b27a0ca4c",
                 "shasum": ""
             },
             "require": {
-                "guzzlehttp/guzzle": "~6.2",
+                "guzzlehttp/guzzle": "~6.3",
                 "monolog/monolog": "~1.23",
                 "php": "~7.1",
                 "surfoo/oauth2-geocaching": "~1.0"
@@ -570,7 +570,7 @@
                 "php",
                 "sdk"
             ],
-            "time": "2018-09-24T21:34:33+00:00"
+            "time": "2018-10-04T11:44:06+00:00"
         },
         {
             "name": "surfoo/oauth2-geocaching",
@@ -625,16 +625,16 @@
         },
         {
             "name": "symfony/debug",
-            "version": "v4.1.4",
+            "version": "v4.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
-                "reference": "47ead688f1f2877f3f14219670f52e4722ee7052"
+                "reference": "e3f76ce6198f81994e019bb2b4e533e9de1b9b90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/debug/zipball/47ead688f1f2877f3f14219670f52e4722ee7052",
-                "reference": "47ead688f1f2877f3f14219670f52e4722ee7052",
+                "url": "https://api.github.com/repos/symfony/debug/zipball/e3f76ce6198f81994e019bb2b4e533e9de1b9b90",
+                "reference": "e3f76ce6198f81994e019bb2b4e533e9de1b9b90",
                 "shasum": ""
             },
             "require": {
@@ -677,7 +677,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2018-08-03T11:13:38+00:00"
+            "time": "2018-10-02T16:36:10+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -918,9 +918,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "surfoo/geocaching-php-sdk": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
