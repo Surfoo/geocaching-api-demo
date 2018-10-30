@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "afa3167437b637bf951e388e38dfe5b8",
+    "content-hash": "cfd1d8bcfb862f7265bb7b5a3580b6ff",
     "packages": [
         {
             "name": "components/jquery",
@@ -522,16 +522,16 @@
         },
         {
             "name": "surfoo/geocaching-php-sdk",
-            "version": "3.0.0",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Surfoo/geocaching-php-sdk.git",
-                "reference": "82080cb8e24b4759eca450f082c6820b27a0ca4c"
+                "reference": "3d2a87f08bcaeb1fd291f0757d60829f0eeec3b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Surfoo/geocaching-php-sdk/zipball/82080cb8e24b4759eca450f082c6820b27a0ca4c",
-                "reference": "82080cb8e24b4759eca450f082c6820b27a0ca4c",
+                "url": "https://api.github.com/repos/Surfoo/geocaching-php-sdk/zipball/3d2a87f08bcaeb1fd291f0757d60829f0eeec3b8",
+                "reference": "3d2a87f08bcaeb1fd291f0757d60829f0eeec3b8",
                 "shasum": ""
             },
             "require": {
@@ -541,7 +541,8 @@
                 "surfoo/oauth2-geocaching": "~1.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~7.0"
+                "phpstan/phpstan": "^0.10.3",
+                "phpunit/phpunit": "~7.4"
             },
             "type": "library",
             "autoload": {
@@ -570,7 +571,7 @@
                 "php",
                 "sdk"
             ],
-            "time": "2018-10-04T11:44:06+00:00"
+            "time": "2018-10-29T22:12:28+00:00"
         },
         {
             "name": "surfoo/oauth2-geocaching",
@@ -918,7 +919,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "surfoo/geocaching-php-sdk": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

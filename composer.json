@@ -11,20 +11,22 @@
     ],
     "require": {
         "twig/twig": "^2.4",
-        "surfoo/geocaching-php-sdk": "~3.0",
+        "surfoo/geocaching-php-sdk": "dev-develop",
         "twbs/bootstrap": "^4.1",
         "components/jquery": "^3.3",
         "symfony/debug": "^4.1"
     },
     "scripts": {
-        "post-install-cmd": [
-            "cp -n app/config.dist.php app/config.php",
+        "assets": [
             "cp -r vendor/twbs/bootstrap/dist/* web/assets/bootstrap/",
             "cp -r vendor/components/jquery/* web/assets/jquery/"
         ],
+        "post-install-cmd": [
+            "cp -n app/config.dist.php app/config.php",
+            "@assets"
+        ],
         "post-update-cmd": [
-            "cp -r vendor/twbs/bootstrap/dist/* web/assets/bootstrap/",
-            "cp -r vendor/components/jquery/* web/assets/jquery/"
+            "@assets"
         ]
     }
 }
