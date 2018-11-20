@@ -2,4 +2,6 @@ cache
 vendor
 app/config.php
 web/assets/bootstrap
+!web/assets/bootstrap/.gitkeep
 web/assets/jquery
+!web/assets/jquery/.gitkeep

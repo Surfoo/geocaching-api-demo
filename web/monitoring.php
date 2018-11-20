@@ -39,7 +39,7 @@ foreach ($methods as $method) {
     preg_match('/swagger:\s([^\s]+)\s([^\s]+)/', $method->getDocComment(), $matches);
 
     if (count($matches) == 3) {
-        list($full, $methodMatch, $pathMatch) = $matches;
+        list(, $methodMatch, $pathMatch) = $matches;
         $sdkMethods[] = sprintf('%s %s', $methodMatch, $pathMatch);
     }
 }
