@@ -1,4 +1,5 @@
 cache
+!cache/.gitkeep
 vendor
 app/config.php
 web/assets/bootstrap
