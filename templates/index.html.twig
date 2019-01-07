@@ -17,6 +17,12 @@
                     <li>Refresh Token: <code title="length = {{ session.refreshToken|length }}">{{ session.refreshToken }}</code></li>
                     <li>Expiration time: <code title="Timestamp: {{ session.expiredTimestamp }}">{{ session.expiredTimestamp|date('r') }}</code> <a href="?refresh" class="btn btn-secondary btn-sm">Refresh the token</a></li>
                 </ul>
+                <h4>User information</h4>
+                <hr />
+                <ul>
+                    <li><a href="{{ session.resourceOwner.getProfileUrl() }}">{{ session.resourceOwner.getUsername() }}</a> ({{ session.resourceOwner.getId() }}) &bullet; Membership Level: {{ session.resourceOwner.getMembershipLevelId() }}</li>
+                    <li>Hide: {{ session.resourceOwner.getHideCount() }} &bullet; Found: {{ session.resourceOwner.getFindCount() }} &bullet; FP: {{ session.resourceOwner.getFavoritePoints() }}</li>
+                </ul>
             </div>
         {% endif %}
 

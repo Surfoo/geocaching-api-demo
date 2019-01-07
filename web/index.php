@@ -104,6 +104,9 @@ if (isset($_SESSION['oauth2state'])) {
 if (!empty($_SESSION['accessToken'])) {
     try {
         $accessToken = unserialize($_SESSION['object']);
+
+        $_SESSION['resourceOwner'] = $provider->getResourceOwner($accessToken);
+
         //Check expiration token, and renew
         if ($accessToken->hasExpired()) {
             try {
@@ -114,7 +117,7 @@ if (!empty($_SESSION['accessToken'])) {
             }
         }
 
-        $httpDebug = true;
+        $httpDebug = false;
         $geocachingApi = GeocachingFactory::createSdk($_SESSION['accessToken'], $app['environment'],
                                                     [
                                                         'debug'   => $httpDebug,
@@ -122,7 +125,6 @@ if (!empty($_SESSION['accessToken'])) {
                                                     ]);
         // request the API
         $httpResponse = $geocachingApi->getUser('me', ['fields' => 'referenceCode,username,hideCount,findCount,favoritePoints,membershipLevelId,avatarUrl,bannerUrl,url,homeCoordinates,geocacheLimits']);
-
 
         $response['body']    = $httpResponse->getBody();
         $response['headers'] = $httpResponse->getHeaders();
