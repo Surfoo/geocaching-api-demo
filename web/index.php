@@ -2,11 +2,11 @@
 
 require dirname(__DIR__) . '/app/app.php';
 
-use Geocaching\GeocachingFactory;
 use Geocaching\Exception\GeocachingSdkException;
-use League\OAuth2\Client\Provider\Geocaching as GeocachingProvider;
+use Geocaching\GeocachingFactory;
 use League\OAuth2\Client\Provider\Exception\GeocachingIdentityProviderException;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
+use League\OAuth2\Client\Provider\Geocaching as GeocachingProvider;
 use League\OAuth2\Client\Token\AccessToken;
 
 $twig_vars = [];
@@ -18,7 +18,7 @@ if (isset($_POST['reset'])) {
         setcookie(session_name(), '', 0);
     }
     session_destroy();
-    header('Location: /');
+    header('Location: ' . dirname($_SERVER['REQUEST_URI']));
     exit(0);
 }
 
@@ -77,6 +77,10 @@ if (isset($_SESSION['oauth2state'])) {
     } else {
         // state is OK, retrive the access token
         try {
+            if (!isset($_GET['code'])) {
+                throw new GeocachingIdentityProviderException(sprintf('error: %s, error_error_description: %s', 
+                $_GET['error'], $_GET['error_description']), 0, $_GET);
+            }
             // Try to get an access token using the authorization code grant.
             $accessToken = $provider->getAccessToken('authorization_code', [
                 'code' => $_GET['code']
@@ -88,10 +92,12 @@ if (isset($_SESSION['oauth2state'])) {
             $_SESSION['expiredTimestamp'] = $accessToken->getExpires();
             $_SESSION['hasExpired']       = $accessToken->hasExpired();
             $_SESSION['object']           = serialize($accessToken);
-        } catch (IdentityProviderException $e) {
+        } catch (\Throwable $e) {
             // Failed to get the access token or user details.
+            $class = explode('\\', get_class($e));
+
             $twig_vars['exception'] = [
-                'type'    => 'IdentityProviderException',
+                'type'    => array_pop($class),
                 'message' => $e->getMessage(),
                 'code'    => $e->getCode(),
                 'trace'   => print_r($e->getTrace(), true),
@@ -126,12 +132,12 @@ if (!empty($_SESSION['accessToken'])) {
         // request the API
         $httpResponse = $geocachingApi->getUser('me', ['fields' => 'referenceCode,username,hideCount,findCount,favoritePoints,membershipLevelId,avatarUrl,bannerUrl,url,homeCoordinates,geocacheLimits']);
 
-        $response['body']    = $httpResponse->getBody();
+        $response['body']    = $httpResponse->getBody(true);
         $response['headers'] = $httpResponse->getHeaders();
         $response['statusCode'] = sprintf('%d %s', $httpResponse->getStatusCode(), $httpResponse->getReasonPhrase());
 
         $twig_vars['response'] = $response;
-    } catch (\Exception $e) {
+    } catch (\Throwable $e) {
         $class = explode('\\', get_class($e));
 
         $twig_vars['exception'] = [

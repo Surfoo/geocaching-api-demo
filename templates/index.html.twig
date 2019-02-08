@@ -52,7 +52,7 @@
                 <h4><span>Response</span>  <button type="button" class="btn btn-sm btn-success show_log">Hide</button></h4>
                 <pre><hr />Status Code: {{ response.statusCode }}
                     <br />
-                    {{- dump(response.body) }}</pre>
+                    {{- response.body|print_r }}</pre>
             </div>
         {% endif %}
 {% endblock %}
