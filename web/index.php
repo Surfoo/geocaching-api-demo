@@ -18,7 +18,7 @@ if (isset($_POST['reset'])) {
         setcookie(session_name(), '', 0);
     }
     session_destroy();
-    header('Location: ' . dirname($_SERVER['REQUEST_URI']));
+    header('Location: ' . WEB_DIRECTORY);
     exit(0);
 }
 
