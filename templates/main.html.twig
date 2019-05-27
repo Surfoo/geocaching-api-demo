@@ -8,8 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Geocaching PHP SDK Demo</title>
         <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
-        <style type="text/css">
-
+        <style>
         #tokenInformation {
             padding: 0;
             margin: 0;
@@ -53,12 +52,52 @@
         {% block main %}{% endblock %}
         </main>
 
+        <!-- About Modal -->
+        <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="aboutModalLabel">About</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-justify">
+
+                        <h6><strong>Attribution:</strong></h6>
+                        <p>
+                            <span style="float: right; margin: 10px 0 0 14px;"><a href="https://www.geocaching.com"><img src="assets/live.png" /></a></span>
+                            <small>Powered by the Geocaching API. Made possible through the support of Geocaching Premium Memberships, the API program gives third-party developers the opportunity to work with Geocaching HQ on a full suite of integrated products and services for the community. API developer applications are designed to work with the core services of geocaching.com and provide additional features to the geocaching community.</small>
+                        </p>
+
+                        <h6><strong>Privacy policy:</strong></h6>
+                        <p>
+                            <small>
+                            Geocaching PHP SDK Demo is used to provide a demo of the Groundspeak API with PHP.<br />
+                            Geocaching PHP SDK Demo never collect, use, or share your personal data.<br />
+                            Geocaching PHP SDK Demo display only informations about your Geocaching account according the <a href="https://api.groundspeak.com/documentation#get-user">Get User method</a>.
+                            </small>
+                        </p>
+
+                        <h6><strong>Contact:</strong></h6>
+                        <p>
+                            <small>
+                            You can contact me for any questions, bugs, or suggestions by email (French or English only):
+                            surfooo at gmail dot com
+                            </small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <footer class="footer">
             <div class="container">
                 <ul>
-                    <li><a href="https://github.com/Surfoo/geocaching-php-sdk">GitHub Project</a></li> &middot;
-                    <li><a href="docs/">Documentation</a></li> &middot;
-                    <li><a href="monitoring.php">Monitoring</a></li>
+                    <li><a href="https://github.com/Surfoo/geocaching-php-sdk">GitHub Project</a> &middot;</li>
+                    <li><a href="docs/">Documentation</a> &middot;</li>
+                    <li><a href="monitoring.php">Monitoring</a> &middot;</li>
+                    <li><a href="#" data-toggle="modal" data-target="#aboutModal">About</a></li>
                 </ul>
             </div>
         </footer>

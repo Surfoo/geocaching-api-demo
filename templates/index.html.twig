@@ -1,7 +1,7 @@
 {% extends "main.html.twig" %}
 
 {% block main %}
-    <form action="" method="post" role="form">
+    <form action="#" method="post" role="form">
         <fieldset>
             <p><strong>Environment:</strong> {{ environment }}</p>
             <input type="submit" name="oauth" value="OAuth dance!" class="btn btn-primary"{% if session.accessToken is defined %} disabled{% endif %} />
@@ -13,7 +13,7 @@
                 <h4>Token information</h4>
                 <hr />
                 <ul id="tokenInformation">
-                    <li>Access Token: <code  title="length = {{ session.accessToken|length }}" style="overflow-wrap: break-word;">{{ session.accessToken[:80] ~ '...' }}</code></li>
+                    <li>Access Token: <code  title="length = {{ session.accessToken|length }}" style="overflow-wrap: break-word;">{{ session.accessToken }}</code></li>
                     <li>Refresh Token: <code title="length = {{ session.refreshToken|length }}">{{ session.refreshToken }}</code></li>
                     <li>Expiration time: <code title="Timestamp: {{ session.expiredTimestamp }}">{{ session.expiredTimestamp|date('r') }}</code> <a href="?refresh" class="btn btn-secondary btn-sm">Refresh the token</a></li>
                 </ul>
