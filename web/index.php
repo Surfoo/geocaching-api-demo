@@ -5,7 +5,6 @@ require dirname(__DIR__) . '/app/app.php';
 use Geocaching\Exception\GeocachingSdkException;
 use Geocaching\GeocachingFactory;
 use League\OAuth2\Client\Provider\Exception\GeocachingIdentityProviderException;
-use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\Geocaching as GeocachingProvider;
 use League\OAuth2\Client\Token\AccessToken;
 
@@ -49,14 +48,37 @@ if (isset($_GET['refresh'])) {
 
 // Run the OAuth process
 if (isset($_POST['oauth'])) {
+    $pkce = [];
+    $_SESSION['codeVerifier'] = $_SESSION['codeChallenge'] = $_SESSION['pkce'] = '';
+
+    if (isset($_POST['pkce'])) {
+        switch($_POST['pkce']) {
+            case "plain":
+                $_SESSION['codeVerifier'] = $_SESSION['codeChallenge'] = bin2hex(random_bytes(64));
+                $_SESSION['pkce'] = "plain";
+                $pkce = ['code_challenge'        => $_SESSION['codeChallenge'], 
+                         'code_challenge_method' => "plain",
+                    ];
+                break;
+            case "S256":
+                $_SESSION['codeVerifier'] = bin2hex(random_bytes(64));
+                $_SESSION['codeChallenge'] = base64url_encode(pack('H*', hash('sha256', $_SESSION['codeVerifier'])));
+                $_SESSION['pkce'] = "S256";
+                $pkce = ['code_challenge'        => $_SESSION['codeChallenge'], 
+                         'code_challenge_method' => 'S256',
+                    ];
+                break;
+        }
+    }
+
+
     // Fetch the authorization URL from the provider; this returns the
     // urlAuthorize option and generates and applies any necessary parameters
     // (e.g. state).
-    $authorizationUrl = $provider->getAuthorizationUrl();
+    $authorizationUrl = $provider->getAuthorizationUrl($pkce);
 
     // Get the state generated for you and store it to the session.
     $_SESSION['oauth2state'] = $provider->getState();
-
     // Redirect the user to the authorization URL.
     header('Location: ' . $authorizationUrl);
     exit(0);
@@ -70,10 +92,6 @@ if (isset($_SESSION['oauth2state'])) {
             'type'    => 'Invalid State',
             'message' => $_GET['state'] . ' != ' . $_SESSION['oauth2state']
         ];
-
-        if (isset($_SESSION['oauth2state'])) {
-            unset($_SESSION['oauth2state']);
-        }
     } else {
         // state is OK, retrive the access token
         try {
@@ -83,8 +101,10 @@ if (isset($_SESSION['oauth2state'])) {
             }
             // Try to get an access token using the authorization code grant.
             $accessToken = $provider->getAccessToken('authorization_code', [
-                'code' => $_GET['code']
+                'code'           => $_GET['code'],
+                'code_verifier'  => $_SESSION['codeVerifier'],
             ]);
+
             // We have an access token, which we may use in authenticated
             // requests against the service provider's API.
             $_SESSION['accessToken']      = $accessToken->getToken();
@@ -104,10 +124,13 @@ if (isset($_SESSION['oauth2state'])) {
             ];
         }
     }
-
+    unset($_SESSION['oauth2state']);
 }
 
 if (!empty($_SESSION['accessToken'])) {
+
+    $httpDebug = false;
+
     try {
         $accessToken = unserialize($_SESSION['object']);
 
@@ -123,14 +146,13 @@ if (!empty($_SESSION['accessToken'])) {
             }
         }
 
-        $httpDebug = false;
         $geocachingApi = GeocachingFactory::createSdk($_SESSION['accessToken'], $app['environment'],
                                                     [
                                                         'debug'   => $httpDebug,
                                                         'timeout' => 10,
                                                     ]);
         // request the API
-        $httpResponse = $geocachingApi->getUser('me', ['fields' => 'referenceCode,username,hideCount,findCount,favoritePoints,membershipLevelId,avatarUrl,bannerUrl,url,homeCoordinates,geocacheLimits']);
+        $httpResponse = $geocachingApi->getUser('me', ['fields' => 'referenceCode,joinedDateUtc,username,hideCount,findCount,favoritePoints,membershipLevelId,avatarUrl,bannerUrl,url,homeCoordinates,geocacheLimits']);
 
         $response['body']    = $httpResponse->getBody(true);
         $response['headers'] = $httpResponse->getHeaders();
@@ -175,4 +197,8 @@ function refreshToken(GeocachingProvider $provider, AccessToken $existingAccessT
     $_SESSION['hasExpired']       = $accessToken->hasExpired();
 
     return $accessToken;
+}
+
+function base64url_encode($plainText) {
+    return trim(strtr(base64_encode($plainText), '+/', '-_'), "=");
 }
