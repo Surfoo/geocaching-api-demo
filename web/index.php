@@ -8,6 +8,8 @@ use League\OAuth2\Client\Provider\Exception\GeocachingIdentityProviderException;
 use League\OAuth2\Client\Provider\Geocaching as GeocachingProvider;
 use League\OAuth2\Client\Token\AccessToken;
 
+session_start();
+
 $twig_vars = [];
 
 // OAuth reset
@@ -34,8 +36,9 @@ $provider = new GeocachingProvider([
 // Refresh the OAuth Token
 if (isset($_GET['refresh'])) {
     try {
-        $accessToken = refreshToken($provider, unserialize($_SESSION['object']));
-        $_SESSION['object'] = serialize($accessToken);
+        $_SESSION['token'] = $provider->getAccessToken('refresh_token', [
+            'refresh_token' => $_SESSION['token']->getRefreshToken()
+        ]);
     } catch(GeocachingIdentityProviderException $e) {
         $twig_vars['exception'] = [
             'type'    => 'GeocachingIdentityProviderException',
@@ -107,11 +110,7 @@ if (isset($_SESSION['oauth2state'])) {
 
             // We have an access token, which we may use in authenticated
             // requests against the service provider's API.
-            $_SESSION['accessToken']      = $accessToken->getToken();
-            $_SESSION['refreshToken']     = $accessToken->getRefreshToken();
-            $_SESSION['expiredTimestamp'] = $accessToken->getExpires();
-            $_SESSION['hasExpired']       = $accessToken->hasExpired();
-            $_SESSION['object']           = serialize($accessToken);
+            $_SESSION['token'] = $accessToken;
         } catch (\Throwable $e) {
             // Failed to get the access token or user details.
             $class = explode('\\', get_class($e));
@@ -127,26 +126,30 @@ if (isset($_SESSION['oauth2state'])) {
     unset($_SESSION['oauth2state']);
 }
 
-if (!empty($_SESSION['accessToken'])) {
+if (!empty($_SESSION['token'])) {
 
     $httpDebug = false;
 
     try {
-        $accessToken = unserialize($_SESSION['object']);
-
-        $_SESSION['resourceOwner'] = $provider->getResourceOwner($accessToken);
+        $_SESSION['resourceOwner'] = $provider->getResourceOwner($_SESSION['token']);
 
         //Check expiration token, and renew
-        if ($accessToken->hasExpired()) {
+        if ($_SESSION['token']->hasExpired()) {
             try {
-                $accessToken = refreshToken($provider, $accessToken);
-                $_SESSION['object'] = serialize($accessToken);
+                $_SESSION['token'] = $provider->getAccessToken('refresh_token', [
+                    'refresh_token' => $_SESSION['token']->getRefreshToken()
+                ]);
             } catch(GeocachingIdentityProviderException $e) {
-                echo $e->getMessage();
+                $twig_vars['exception'] = [
+                    'type'    => array_pop($class),
+                    'message' => $e->getMessage(),
+                    'code'    => $e->getCode(),
+                    'trace'   => print_r($e->getTrace(), true),
+                ];
             }
         }
 
-        $geocachingApi = GeocachingFactory::createSdk($_SESSION['accessToken'], $app['environment'],
+        $geocachingApi = GeocachingFactory::createSdk($_SESSION['token']->getToken(), $app['environment'],
                                                     [
                                                         'debug'   => $httpDebug,
                                                         'timeout' => 10,
@@ -182,23 +185,9 @@ $twig_vars['session']     = $_SESSION;
 echo $twig->render('index.html.twig', $twig_vars);
 
 /**
- * @param League\OAuth2\Client\Provider\Geocaching $provider
- * @param League\OAuth2\Client\Token\AccessToken $existingAccessToken
+ * @param string $plainText
+ * @return string
  */
-function refreshToken(GeocachingProvider $provider, AccessToken $existingAccessToken) {
-
-    $accessToken = $provider->getAccessToken('refresh_token', [
-        'refresh_token' => $existingAccessToken->getRefreshToken()
-    ]);
-
-    $_SESSION['accessToken']      = $accessToken->getToken();
-    $_SESSION['refreshToken']     = $accessToken->getRefreshToken();
-    $_SESSION['expiredTimestamp'] = $accessToken->getExpires();
-    $_SESSION['hasExpired']       = $accessToken->hasExpired();
-
-    return $accessToken;
-}
-
-function base64url_encode($plainText) {
+function base64url_encode(string $plainText): string {
     return trim(strtr(base64_encode($plainText), '+/', '-_'), "=");
 }

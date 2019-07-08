@@ -6,22 +6,22 @@
         <fieldset>
             <p><strong>Environment:</strong> {{ environment }}<br />
             <strong><abbr title="Proof Key for Code Exchange">PKCE</abbr>:</strong>
-                <input type="radio" name="pkce" id="pkce_s256" value="S256"{% if session.pkce == "S256" or session.pkce is not defined %} checked{% endif %}{% if session.accessToken is defined %} disabled{% endif %} /> <label for="pkce_s256">sha256</label>
-                <input type="radio" name="pkce" id="pkce_plain" value="plain"{% if session.pkce == "plain" %} checked{% endif %}{% if session.accessToken is defined %} disabled{% endif %} /> <label for="pkce_plain">plain</label>
-                <input type="radio" name="pkce" id="pkce_none" value=""{% if session.pkce is defined and session.pkce == "" %} checked{% endif %}{% if session.accessToken is defined %} disabled{% endif %} /> <label for="pkce_none">none</label>
+                <input type="radio" name="pkce" id="pkce_s256" value="S256"{% if session.pkce == "S256" or session.pkce is not defined %} checked{% endif %}{% if session.token is defined %} disabled{% endif %} /> <label for="pkce_s256">sha256</label>
+                <input type="radio" name="pkce" id="pkce_plain" value="plain"{% if session.pkce == "plain" %} checked{% endif %}{% if session.token is defined %} disabled{% endif %} /> <label for="pkce_plain">plain</label>
+                <input type="radio" name="pkce" id="pkce_none" value=""{% if session.pkce is defined and session.pkce == "" %} checked{% endif %}{% if session.token is defined %} disabled{% endif %} /> <label for="pkce_none">none</label>
             </p>
-            <input type="submit" name="oauth" value="OAuth dance!" class="btn btn-primary"{% if session.accessToken is defined %} disabled{% endif %} />
+            <input type="submit" name="oauth" value="OAuth dance!" class="btn btn-primary"{% if session.token is defined %} disabled{% endif %} />
             <input type="submit" name="reset" value="Reset OAuth Token" class="btn btn-warning" />
         </fieldset>
     </form>
-        {% if session.accessToken is defined %}
+        {% if session.token is defined %}
             <div class="alert alert-secondary" role="alert">
                 <h4>Token information</h4>
                 <hr />
                 <ul id="tokenInformation">
-                    <li>Access Token: <code title="length = {{ session.accessToken|length }}" style="overflow-wrap: break-word;">{{ session.accessToken }}</code></li>
-                    <li>Refresh Token: <code title="length = {{ session.refreshToken|length }}">{{ session.refreshToken }}</code></li>
-                    <li>Expiration time: <code title="Timestamp: {{ session.expiredTimestamp }}">{{ session.expiredTimestamp|date('r') }}</code> <a href="?refresh" class="btn btn-secondary btn-sm">Refresh the token</a></li>
+                    <li>Access Token: <code title="length = {{ session.token.getToken()|length }}" style="overflow-wrap: break-word;">{{ session.token.getToken() }}</code></li>
+                    <li>Refresh Token: <code title="length = {{ session.token.getRefreshToken()|length }}">{{ session.token.getRefreshToken() }}</code></li>
+                    <li>Expiration time: <code title="Timestamp: {{ session.token.getExpires() }}">{{ session.token.getExpires()|date('r') }}</code> <a href="?refresh" class="btn btn-secondary btn-sm">Refresh the token</a></li>
                 </ul>
                 <h4>User information</h4>
                 <hr />
