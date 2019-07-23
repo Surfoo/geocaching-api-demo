@@ -8,6 +8,9 @@ use League\OAuth2\Client\Provider\Exception\GeocachingIdentityProviderException;
 use League\OAuth2\Client\Provider\Geocaching as GeocachingProvider;
 use League\OAuth2\Client\Token\AccessToken;
 
+// Display HTTP logs from Guzzle
+define('HTTP_DEBUG', false);
+
 session_start();
 
 $twig_vars = [];
@@ -39,7 +42,7 @@ if (isset($_GET['refresh'])) {
         $_SESSION['token'] = $provider->getAccessToken('refresh_token', [
             'refresh_token' => $_SESSION['token']->getRefreshToken()
         ]);
-    } catch(GeocachingIdentityProviderException $e) {
+    } catch (GeocachingIdentityProviderException $e) {
         $twig_vars['exception'] = [
             'type'    => 'GeocachingIdentityProviderException',
             'message' => $e->getMessage(),
@@ -47,6 +50,9 @@ if (isset($_GET['refresh'])) {
             'trace'   => print_r($e->getTrace(), true),
         ];
     }
+
+    header('Location: ' . WEB_DIRECTORY);
+    exit(0);
 }
 
 // Run the OAuth process
@@ -55,11 +61,11 @@ if (isset($_POST['oauth'])) {
     $_SESSION['codeVerifier'] = $_SESSION['codeChallenge'] = $_SESSION['pkce'] = '';
 
     if (isset($_POST['pkce'])) {
-        switch($_POST['pkce']) {
+        switch ($_POST['pkce']) {
             case "plain":
                 $_SESSION['codeVerifier'] = $_SESSION['codeChallenge'] = bin2hex(random_bytes(64));
                 $_SESSION['pkce'] = "plain";
-                $pkce = ['code_challenge'        => $_SESSION['codeChallenge'], 
+                $pkce = ['code_challenge'        => $_SESSION['codeChallenge'],
                          'code_challenge_method' => "plain",
                     ];
                 break;
@@ -67,7 +73,7 @@ if (isset($_POST['oauth'])) {
                 $_SESSION['codeVerifier'] = bin2hex(random_bytes(64));
                 $_SESSION['codeChallenge'] = base64url_encode(pack('H*', hash('sha256', $_SESSION['codeVerifier'])));
                 $_SESSION['pkce'] = "S256";
-                $pkce = ['code_challenge'        => $_SESSION['codeChallenge'], 
+                $pkce = ['code_challenge'        => $_SESSION['codeChallenge'],
                          'code_challenge_method' => 'S256',
                     ];
                 break;
@@ -99,8 +105,11 @@ if (isset($_SESSION['oauth2state'])) {
         // state is OK, retrive the access token
         try {
             if (!isset($_GET['code'])) {
-                throw new GeocachingIdentityProviderException(sprintf('error: %s, error_error_description: %s', 
-                $_GET['error'], $_GET['error_description']), 0, $_GET);
+                throw new GeocachingIdentityProviderException(sprintf(
+                    'error: %s, error_error_description: %s',
+                    $_GET['error'],
+                    $_GET['error_description']
+                ), 0, $_GET);
             }
             // Try to get an access token using the authorization code grant.
             $accessToken = $provider->getAccessToken('authorization_code', [
@@ -124,22 +133,22 @@ if (isset($_SESSION['oauth2state'])) {
         }
     }
     unset($_SESSION['oauth2state']);
+
+    header('Location: ' . WEB_DIRECTORY);
+    exit(0);
 }
 
 if (!empty($_SESSION['token'])) {
-
-    $httpDebug = false;
-
     try {
         $_SESSION['resourceOwner'] = $provider->getResourceOwner($_SESSION['token']);
 
-        //Check expiration token, and renew
+        // Check expiration token, and renew if needed
         if ($_SESSION['token']->hasExpired()) {
             try {
                 $_SESSION['token'] = $provider->getAccessToken('refresh_token', [
                     'refresh_token' => $_SESSION['token']->getRefreshToken()
                 ]);
-            } catch(GeocachingIdentityProviderException $e) {
+            } catch (GeocachingIdentityProviderException $e) {
                 $twig_vars['exception'] = [
                     'type'    => array_pop($class),
                     'message' => $e->getMessage(),
@@ -149,13 +158,18 @@ if (!empty($_SESSION['token'])) {
             }
         }
 
-        $geocachingApi = GeocachingFactory::createSdk($_SESSION['token']->getToken(), $app['environment'],
-                                                    [
-                                                        'debug'   => $httpDebug,
-                                                        'timeout' => 10,
-                                                    ]);
-        // request the API
-        $httpResponse = $geocachingApi->getUser('me', ['fields' => 'referenceCode,joinedDateUtc,username,hideCount,findCount,favoritePoints,membershipLevelId,avatarUrl,bannerUrl,url,homeCoordinates,geocacheLimits']);
+        // Create GeocachingSDK from a factory
+        $geocachingApi = GeocachingFactory::createSdk(
+            $_SESSION['token']->getToken(),
+            $app['environment'],
+            [
+                'debug'   => HTTP_DEBUG,
+                'timeout' => 10,
+                'connect_timeout' => 10,
+            ]
+        );
+        // request the API with getUser method
+        $httpResponse = $geocachingApi->getUser('me', ['fields' => 'username,referenceCode,joinedDateUtc,favoritePoints,membershipLevelId,avatarUrl,bannerUrl,url,homeCoordinates,hideCount,findCount,geocacheLimits,optedInFriendSharing']);
 
         $response['body']    = $httpResponse->getBody(true);
         $response['headers'] = $httpResponse->getHeaders();
@@ -174,7 +188,7 @@ if (!empty($_SESSION['token'])) {
     }
 
     $httpDebugLog = ob_get_clean();
-    if ($httpDebug) {
+    if (HTTP_DEBUG) {
         $twig_vars['http_debug'] = print_r($httpDebugLog, true);
     }
 }
@@ -186,8 +200,10 @@ echo $twig->render('index.html.twig', $twig_vars);
 
 /**
  * @param string $plainText
+ *
  * @return string
  */
-function base64url_encode(string $plainText): string {
+function base64url_encode(string $plainText): string
+{
     return trim(strtr(base64_encode($plainText), '+/', '-_'), "=");
 }

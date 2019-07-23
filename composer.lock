@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5c6b04450a4cbede52199e72d0ad1c5c",
+    "content-hash": "1bce9c8272640f240a021c7e735af954",
     "packages": [
         {
             "name": "components/jquery",
@@ -564,16 +564,16 @@
         },
         {
             "name": "surfoo/geocaching-php-sdk",
-            "version": "3.4.0",
+            "version": "3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Surfoo/geocaching-php-sdk.git",
-                "reference": "083934c2a2ee20175b03a3060a18507813161e79"
+                "reference": "18daddd12987d1372df7796c95d7ca1daf77bb5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Surfoo/geocaching-php-sdk/zipball/083934c2a2ee20175b03a3060a18507813161e79",
-                "reference": "083934c2a2ee20175b03a3060a18507813161e79",
+                "url": "https://api.github.com/repos/Surfoo/geocaching-php-sdk/zipball/18daddd12987d1372df7796c95d7ca1daf77bb5c",
+                "reference": "18daddd12987d1372df7796c95d7ca1daf77bb5c",
                 "shasum": ""
             },
             "require": {
@@ -613,7 +613,7 @@
                 "php",
                 "sdk"
             ],
-            "time": "2019-06-15T22:06:16+00:00"
+            "time": "2019-07-23T22:08:18+00:00"
         },
         {
             "name": "surfoo/oauth2-geocaching",
