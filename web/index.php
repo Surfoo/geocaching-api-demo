@@ -64,14 +64,14 @@ if (isset($_POST['oauth'])) {
     if (isset($_POST['pkce'])) {
         switch ($_POST['pkce']) {
             case "plain":
-                $_SESSION['codeVerifier'] = $_SESSION['codeChallenge'] = Utils::createCodeVerifier(128);
+                $_SESSION['codeVerifier'] = $_SESSION['codeChallenge'] = Utils::createCodeVerifier();
                 $_SESSION['pkce']         = "plain";
                 $pkce = ['code_challenge'        => $_SESSION['codeChallenge'],
                          'code_challenge_method' => "plain",
                     ];
                 break;
             case "S256":
-                $_SESSION['codeVerifier']  = Utils::createCodeVerifier(128);
+                $_SESSION['codeVerifier']  = Utils::createCodeVerifier();
                 $_SESSION['codeChallenge'] = Utils::createCodeChallenge($_SESSION['codeVerifier']);
                 $_SESSION['pkce']          = "S256";
                 $pkce = ['code_challenge'        => $_SESSION['codeChallenge'],
