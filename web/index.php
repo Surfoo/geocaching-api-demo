@@ -198,13 +198,3 @@ $twig_vars['environment'] = $app['environment'];
 $twig_vars['session']     = $_SESSION;
 
 echo $twig->render('index.html.twig', $twig_vars);
-
-/**
- * @param string $plainText
- *
- * @return string
- */
-function base64url_encode(string $plainText): string
-{
-    return trim(strtr(base64_encode($plainText), '+/', '-_'), "=");
-}

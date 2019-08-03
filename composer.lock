@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8fdd7127ccaae53cd0896eeb604fc8e5",
+    "content-hash": "7eb4508af46860027957b5a7051e2c29",
     "packages": [
         {
             "name": "components/jquery",
@@ -564,16 +564,16 @@
         },
         {
             "name": "surfoo/geocaching-php-sdk",
-            "version": "3.6.0",
+            "version": "3.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Surfoo/geocaching-php-sdk.git",
-                "reference": "eb308c1ce69778d462182dca180845513771cb8a"
+                "reference": "f29661e91c0ac1a04733cab36b5538548e1b14a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Surfoo/geocaching-php-sdk/zipball/eb308c1ce69778d462182dca180845513771cb8a",
-                "reference": "eb308c1ce69778d462182dca180845513771cb8a",
+                "url": "https://api.github.com/repos/Surfoo/geocaching-php-sdk/zipball/f29661e91c0ac1a04733cab36b5538548e1b14a2",
+                "reference": "f29661e91c0ac1a04733cab36b5538548e1b14a2",
                 "shasum": ""
             },
             "require": {
@@ -613,7 +613,7 @@
                 "php",
                 "sdk"
             ],
-            "time": "2019-07-28T23:16:41+00:00"
+            "time": "2019-08-03T13:22:07+00:00"
         },
         {
             "name": "surfoo/oauth2-geocaching",
@@ -767,7 +767,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "BackEndTea@gmail.com"
+                    "email": "backendtea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
