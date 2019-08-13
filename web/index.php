@@ -4,7 +4,6 @@ require dirname(__DIR__) . '/app/app.php';
 
 use Geocaching\Exception\GeocachingSdkException;
 use Geocaching\GeocachingFactory;
-use Geocaching\Lib\Utils\Utils;
 use League\OAuth2\Client\Provider\Exception\GeocachingIdentityProviderException;
 use League\OAuth2\Client\Provider\Geocaching as GeocachingProvider;
 use League\OAuth2\Client\Token\AccessToken;
@@ -64,15 +63,15 @@ if (isset($_POST['oauth'])) {
     if (isset($_POST['pkce'])) {
         switch ($_POST['pkce']) {
             case "plain":
-                $_SESSION['codeVerifier'] = $_SESSION['codeChallenge'] = Utils::createCodeVerifier();
+                $_SESSION['codeVerifier'] = $_SESSION['codeChallenge'] = GeocachingProvider::createCodeVerifier();
                 $_SESSION['pkce']         = "plain";
                 $pkce = ['code_challenge'        => $_SESSION['codeChallenge'],
                          'code_challenge_method' => "plain",
                     ];
                 break;
             case "S256":
-                $_SESSION['codeVerifier']  = Utils::createCodeVerifier();
-                $_SESSION['codeChallenge'] = Utils::createCodeChallenge($_SESSION['codeVerifier']);
+                $_SESSION['codeVerifier']  = GeocachingProvider::createCodeVerifier();
+                $_SESSION['codeChallenge'] = GeocachingProvider::createCodeChallenge($_SESSION['codeVerifier']);
                 $_SESSION['pkce']          = "S256";
                 $pkce = ['code_challenge'        => $_SESSION['codeChallenge'],
                          'code_challenge_method' => 'S256',
