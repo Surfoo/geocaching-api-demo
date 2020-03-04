@@ -10,11 +10,14 @@
         }
     ],
     "require": {
-        "twig/twig": "^2.4",
-        "surfoo/geocaching-php-sdk": "^3.7",
-        "twbs/bootstrap": "^4.1",
+        "twig/twig": "^3.0",
+        "surfoo/geocaching-php-sdk": "^3.9",
+        "twbs/bootstrap": "^4.4",
         "components/jquery": "^3.3",
-        "symfony/debug": "^4.1"
+        "symfony/error-handler": "^5.0"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^0.12.0"
     },
     "scripts": {
         "assets": [
@@ -27,6 +30,8 @@
         ],
         "post-update-cmd": [
             "@assets"
-        ]
+        ],
+        "phpstan": "vendor/bin/phpstan analyse",
+        "php-cs-fixer": "php-cs-fixer fix"
     }
 }

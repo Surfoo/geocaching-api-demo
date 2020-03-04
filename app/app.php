@@ -16,11 +16,11 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
 
 $twig_options = ['debug' => $debug, 'cache' => false];
 
-$loader = new Twig_Loader_Filesystem(ROOT . '/templates');
-$twig   = new Twig_Environment($loader, $twig_options);
+$loader = new Twig\Loader\FilesystemLoader(ROOT . '/templates');
+$twig   = new Twig\Environment($loader, $twig_options);
 
-$twig->addExtension(new Twig_Extension_Debug());
+$twig->addExtension(new \Twig\Extension\DebugExtension());
 
-$twig->addFilter(new Twig_Filter('print_r', function(array $array) {
+$twig->addFilter(new Twig\TwigFilter('print_r', function (array $array) {
     return print_r($array, true);
 }));

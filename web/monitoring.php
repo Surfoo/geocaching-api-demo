@@ -11,7 +11,7 @@ if (file_exists($swaggerAbsolutePath) &&
 } else {
     try {
         $jsonContent = (new GuzzleHttp\Client())->get(URI_SWAGGER_FILE)->getBody();
-    } catch(\Exception $e) {
+    } catch (\Exception $e) {
         $twig_vars['exception'] = $e->getMessage();
         echo $twig->render('monitoring.html.twig', $twig_vars);
         exit();
@@ -22,14 +22,14 @@ if (file_exists($swaggerAbsolutePath) &&
 $swaggerJson = json_decode($jsonContent, true);
 
 $swaggerMethods = [];
-foreach($swaggerJson['paths'] as $path => $methods) {
-    foreach(array_keys($methods) as $method) {
+foreach ($swaggerJson['paths'] as $path => $methods) {
+    foreach (array_keys($methods) as $method) {
         $swaggerMethods[] = sprintf('%s %s', strtoupper($method), $path);
     }
 }
 
 // GeocachingSdk Methods
-$methods = (new ReflectionClass('Geocaching\Sdk\GeocachingSdk'))->getMethods();
+$methods    = (new ReflectionClass('Geocaching\Sdk\GeocachingSdk'))->getMethods();
 $sdkMethods = [];
 foreach ($methods as $method) {
     if ($method->getName() == '__construct') {
@@ -40,7 +40,7 @@ foreach ($methods as $method) {
 
     if (count($matches) == 3) {
         list(, $methodMatch, $pathMatch) = $matches;
-        $sdkMethods[] = sprintf('%s %s', $methodMatch, $pathMatch);
+        $sdkMethods[]                    = sprintf('%s %s', $methodMatch, $pathMatch);
     }
 }
 

@@ -6,3 +6,4 @@ web/assets/bootstrap
 !web/assets/bootstrap/.gitkeep
 web/assets/jquery
 !web/assets/jquery/.gitkeep
+.php_cs.cache
