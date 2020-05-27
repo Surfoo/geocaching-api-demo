@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f9223212b14108add72996173fbd2c6f",
+    "content-hash": "6e0f478ef4df90554b7b5a7ab61c7e44",
     "packages": [
         {
             "name": "components/jquery",
-            "version": "3.4.1",
+            "version": "3.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/components/jquery.git",
-                "reference": "901828b7968b18319e377dc23d466f28426ee083"
+                "reference": "b33e8f0f9a1cb2ae390cf05d766a900b53d2125b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/components/jquery/zipball/901828b7968b18319e377dc23d466f28426ee083",
-                "reference": "901828b7968b18319e377dc23d466f28426ee083",
+                "url": "https://api.github.com/repos/components/jquery/zipball/b33e8f0f9a1cb2ae390cf05d766a900b53d2125b",
+                "reference": "b33e8f0f9a1cb2ae390cf05d766a900b53d2125b",
                 "shasum": ""
             },
             "type": "component",
@@ -46,20 +46,20 @@
             ],
             "description": "jQuery JavaScript Library",
             "homepage": "http://jquery.com",
-            "time": "2019-10-23T05:15:13+00:00"
+            "time": "2020-05-05T13:21:02+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "6.5.3",
+            "version": "6.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "aab4ebd862aa7d04f01a4b51849d657db56d882e"
+                "reference": "a4a1b6930528a8f7ee03518e6442ec7a44155d9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/aab4ebd862aa7d04f01a4b51849d657db56d882e",
-                "reference": "aab4ebd862aa7d04f01a4b51849d657db56d882e",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/a4a1b6930528a8f7ee03518e6442ec7a44155d9d",
+                "reference": "a4a1b6930528a8f7ee03518e6442ec7a44155d9d",
                 "shasum": ""
             },
             "require": {
@@ -67,7 +67,7 @@
                 "guzzlehttp/promises": "^1.0",
                 "guzzlehttp/psr7": "^1.6.1",
                 "php": ">=5.5",
-                "symfony/polyfill-intl-idn": "^1.11"
+                "symfony/polyfill-intl-idn": "1.17.0"
             },
             "require-dev": {
                 "ext-curl": "*",
@@ -113,7 +113,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2020-04-18T10:38:46+00:00"
+            "time": "2020-05-25T19:35:05+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -306,20 +306,20 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "2.0.2",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "c861fcba2ca29404dc9e617eedd9eff4616986b8"
+                "reference": "38914429aac460e8e4616c8cb486ecb40ec90bb1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/c861fcba2ca29404dc9e617eedd9eff4616986b8",
-                "reference": "c861fcba2ca29404dc9e617eedd9eff4616986b8",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/38914429aac460e8e4616c8cb486ecb40ec90bb1",
+                "reference": "38914429aac460e8e4616c8cb486ecb40ec90bb1",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2",
+                "php": ">=7.2",
                 "psr/log": "^1.0.1"
             },
             "provide": {
@@ -330,11 +330,11 @@
                 "doctrine/couchdb": "~1.0@dev",
                 "elasticsearch/elasticsearch": "^6.0",
                 "graylog2/gelf-php": "^1.4.2",
-                "jakub-onderka/php-parallel-lint": "^0.9",
                 "php-amqplib/php-amqplib": "~2.4",
                 "php-console/php-console": "^3.1.3",
+                "php-parallel-lint/php-parallel-lint": "^1.0",
                 "phpspec/prophecy": "^1.6.1",
-                "phpunit/phpunit": "^8.3",
+                "phpunit/phpunit": "^8.5",
                 "predis/predis": "^1.1",
                 "rollbar/rollbar": "^1.3",
                 "ruflin/elastica": ">=0.90 <3.0",
@@ -383,7 +383,17 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2019-12-20T14:22:59+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/Seldaek",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/monolog/monolog",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-05-22T08:12:19+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -569,16 +579,16 @@
         },
         {
             "name": "surfoo/geocaching-php-sdk",
-            "version": "3.10.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Surfoo/geocaching-php-sdk.git",
-                "reference": "99f0c72836f4bb298cd2a42b769734df1eeb70ce"
+                "reference": "a3051d9233179f589b40f1aa55e5c47cc86b1d3c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Surfoo/geocaching-php-sdk/zipball/99f0c72836f4bb298cd2a42b769734df1eeb70ce",
-                "reference": "99f0c72836f4bb298cd2a42b769734df1eeb70ce",
+                "url": "https://api.github.com/repos/Surfoo/geocaching-php-sdk/zipball/a3051d9233179f589b40f1aa55e5c47cc86b1d3c",
+                "reference": "a3051d9233179f589b40f1aa55e5c47cc86b1d3c",
                 "shasum": ""
             },
             "require": {
@@ -618,7 +628,7 @@
                 "php",
                 "sdk"
             ],
-            "time": "2020-04-26T22:08:14+00:00"
+            "time": "2020-05-27T20:43:36+00:00"
         },
         {
             "name": "surfoo/oauth2-geocaching",
@@ -674,7 +684,7 @@
         },
         {
             "name": "symfony/error-handler",
-            "version": "v5.0.7",
+            "version": "v5.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/error-handler.git",
@@ -743,16 +753,16 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.15.0",
+            "version": "v1.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "4719fa9c18b0464d399f1a63bf624b42b6fa8d14"
+                "reference": "e94c8b1bbe2bc77507a1056cdb06451c75b427f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/4719fa9c18b0464d399f1a63bf624b42b6fa8d14",
-                "reference": "4719fa9c18b0464d399f1a63bf624b42b6fa8d14",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/e94c8b1bbe2bc77507a1056cdb06451c75b427f9",
+                "reference": "e94c8b1bbe2bc77507a1056cdb06451c75b427f9",
                 "shasum": ""
             },
             "require": {
@@ -764,7 +774,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.15-dev"
+                    "dev-master": "1.17-dev"
                 }
             },
             "autoload": {
@@ -811,20 +821,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-02-27T09:26:54+00:00"
+            "time": "2020-05-12T16:14:59+00:00"
         },
         {
             "name": "symfony/polyfill-intl-idn",
-            "version": "v1.15.0",
+            "version": "v1.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-idn.git",
-                "reference": "47bd6aa45beb1cd7c6a16b7d1810133b728bdfcf"
+                "reference": "3bff59ea7047e925be6b7f2059d60af31bb46d6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/47bd6aa45beb1cd7c6a16b7d1810133b728bdfcf",
-                "reference": "47bd6aa45beb1cd7c6a16b7d1810133b728bdfcf",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/3bff59ea7047e925be6b7f2059d60af31bb46d6a",
+                "reference": "3bff59ea7047e925be6b7f2059d60af31bb46d6a",
                 "shasum": ""
             },
             "require": {
@@ -838,7 +848,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.15-dev"
+                    "dev-master": "1.17-dev"
                 }
             },
             "autoload": {
@@ -887,20 +897,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-03-09T19:04:49+00:00"
+            "time": "2020-05-12T16:47:27+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.15.0",
+            "version": "v1.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "81ffd3a9c6d707be22e3012b827de1c9775fc5ac"
+                "reference": "fa79b11539418b02fc5e1897267673ba2c19419c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/81ffd3a9c6d707be22e3012b827de1c9775fc5ac",
-                "reference": "81ffd3a9c6d707be22e3012b827de1c9775fc5ac",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/fa79b11539418b02fc5e1897267673ba2c19419c",
+                "reference": "fa79b11539418b02fc5e1897267673ba2c19419c",
                 "shasum": ""
             },
             "require": {
@@ -912,7 +922,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.15-dev"
+                    "dev-master": "1.17-dev"
                 }
             },
             "autoload": {
@@ -960,20 +970,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-03-09T19:04:49+00:00"
+            "time": "2020-05-12T16:47:27+00:00"
         },
         {
             "name": "symfony/polyfill-php72",
-            "version": "v1.15.0",
+            "version": "v1.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php72.git",
-                "reference": "37b0976c78b94856543260ce09b460a7bc852747"
+                "reference": "f048e612a3905f34931127360bdd2def19a5e582"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php72/zipball/37b0976c78b94856543260ce09b460a7bc852747",
-                "reference": "37b0976c78b94856543260ce09b460a7bc852747",
+                "url": "https://api.github.com/repos/symfony/polyfill-php72/zipball/f048e612a3905f34931127360bdd2def19a5e582",
+                "reference": "f048e612a3905f34931127360bdd2def19a5e582",
                 "shasum": ""
             },
             "require": {
@@ -982,7 +992,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.15-dev"
+                    "dev-master": "1.17-dev"
                 }
             },
             "autoload": {
@@ -1029,20 +1039,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-02-27T09:26:54+00:00"
+            "time": "2020-05-12T16:47:27+00:00"
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v5.0.7",
+            "version": "v5.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "f74a126acd701392eef2492a17228d42552c86b5"
+                "reference": "09de28632f16f81058a85fcf318397218272a07b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/f74a126acd701392eef2492a17228d42552c86b5",
-                "reference": "f74a126acd701392eef2492a17228d42552c86b5",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/09de28632f16f81058a85fcf318397218272a07b",
+                "reference": "09de28632f16f81058a85fcf318397218272a07b",
                 "shasum": ""
             },
             "require": {
@@ -1118,20 +1128,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-03-27T16:56:45+00:00"
+            "time": "2020-04-12T16:45:47+00:00"
         },
         {
             "name": "twbs/bootstrap",
-            "version": "v4.4.1",
+            "version": "v4.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "dca1ab7d877bc4b664b43604657a2b5fbe2b4ecb"
+                "reference": "7a6da5e3e7ad7c749dde806546a35d4d4259d965"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/dca1ab7d877bc4b664b43604657a2b5fbe2b4ecb",
-                "reference": "dca1ab7d877bc4b664b43604657a2b5fbe2b4ecb",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/7a6da5e3e7ad7c749dde806546a35d4d4259d965",
+                "reference": "7a6da5e3e7ad7c749dde806546a35d4d4259d965",
                 "shasum": ""
             },
             "replace": {
@@ -1169,7 +1179,13 @@
                 "sass",
                 "web"
             ],
-            "time": "2019-11-28T12:59:49+00:00"
+            "funding": [
+                {
+                    "url": "https://opencollective.com/bootstrap",
+                    "type": "open_collective"
+                }
+            ],
+            "time": "2020-05-12T17:44:42+00:00"
         },
         {
             "name": "twig/twig",
@@ -1237,16 +1253,16 @@
     "packages-dev": [
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.19",
+            "version": "0.12.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "054f6d76b12ba9a6c13a5a8d5fcdf51219615f4d"
+                "reference": "9619551d68b2d4c0d681a8df73f3c847c798ee64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/054f6d76b12ba9a6c13a5a8d5fcdf51219615f4d",
-                "reference": "054f6d76b12ba9a6c13a5a8d5fcdf51219615f4d",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/9619551d68b2d4c0d681a8df73f3c847c798ee64",
+                "reference": "9619551d68b2d4c0d681a8df73f3c847c798ee64",
                 "shasum": ""
             },
             "require": {
@@ -1289,12 +1305,14 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-04-19T20:35:10+00:00"
+            "time": "2020-05-10T20:36:16+00:00"
         }
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "surfoo/geocaching-php-sdk": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

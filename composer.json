@@ -11,9 +11,9 @@
     ],
     "require": {
         "twig/twig": "^3.0",
-        "surfoo/geocaching-php-sdk": "^3.9",
+        "surfoo/geocaching-php-sdk": "dev-master",
         "twbs/bootstrap": "^4.4",
-        "components/jquery": "^3.3",
+        "components/jquery": "^3.5",
         "symfony/error-handler": "^5.0"
     },
     "require-dev": {

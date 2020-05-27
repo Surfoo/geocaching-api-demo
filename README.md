@@ -16,9 +16,4 @@ just run the following script:
 
 and then, open your browser on http://localhost:8000
 
-
 The code written `index.php` is an example of implementation of the OAuth process (inspired by the example of [thephpleague](https://github.com/thephpleague/oauth2-client)) and the SDK for the [Geocaching API](https://github.com/Surfoo/geocaching-php-sdk), feel free to modify it for your needs.
-
-## Generate the documentation
-
-    php sami.phar update sami.php
