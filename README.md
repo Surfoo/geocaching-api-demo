@@ -10,10 +10,8 @@ Your callback URL must be authorized by Groundspeak, you need to contact the sup
 
 ### Run the server
 
-just run the following script:
+    php -S 0.0.0.0:8000 -t web
 
-    ./run-server.sh
-
-and then, open your browser on http://localhost:8000
+Run the command above and open your browser on http://localhost:8000
 
 The code written `index.php` is an example of implementation of the OAuth process (inspired by the example of [thephpleague](https://github.com/thephpleague/oauth2-client)) and the SDK for the [Geocaching API](https://github.com/Surfoo/geocaching-php-sdk), feel free to modify it for your needs.
