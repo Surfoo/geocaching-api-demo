@@ -10,6 +10,7 @@
         }
     ],
     "require": {
+        "php": "^7.3",
         "twig/twig": "^3.0",
         "surfoo/geocaching-php-sdk": "dev-master",
         "twbs/bootstrap": "^4.4",
