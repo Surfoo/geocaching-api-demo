@@ -10,12 +10,12 @@
         }
     ],
     "require": {
-        "php": "^7.3",
+        "php": "^7.3 || ^8.0",
         "twig/twig": "^3.0",
         "surfoo/geocaching-php-sdk": "dev-master",
         "twbs/bootstrap": "^4.4",
         "components/jquery": "^3.5",
-        "symfony/error-handler": "^5.0"
+        "symfony/error-handler": "^5.2"
     },
     "require-dev": {
         "phpstan/phpstan": "^0.12.0"
