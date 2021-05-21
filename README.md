@@ -10,7 +10,7 @@ Your callback URL must be authorized by Groundspeak, you need to contact the sup
 
 ### Run the server
 
-    php -S 0.0.0.0:8000 -t web
+    php -S 0.0.0.0:8000 -t public
 
 Run the command above and open your browser on http://localhost:8000
 

@@ -3,4 +3,4 @@ parameters:
     level: 5
     paths:
         - app
-        - web
+        - public
