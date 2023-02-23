@@ -4,7 +4,6 @@ require dirname(__DIR__) . '/app/app.php';
 
 use Geocaching\Exception\GeocachingSdkException;
 use Geocaching\GeocachingFactory;
-use Geocaching\Sdk\GeocachingSdk;
 use League\OAuth2\Client\Provider\Exception\GeocachingIdentityProviderException;
 use League\OAuth2\Client\Provider\Geocaching as GeocachingProvider;
 
@@ -56,28 +55,29 @@ if (isset($_GET['refresh'])) {
 }
 
 // Run the OAuth process
-if (isset($_POST['oauth'])) {
+if (isset($_POST['oauth']) && $_POST['pkce']) {
     $pkce                     = [];
     $_SESSION['codeVerifier'] = $_SESSION['codeChallenge'] = $_SESSION['pkce'] = '';
 
-    if (isset($_POST['pkce'])) {
-        switch ($_POST['pkce']) {
-            case "plain":
-                $_SESSION['codeVerifier'] = $_SESSION['codeChallenge'] = GeocachingProvider::createCodeVerifier();
-                $_SESSION['pkce']         = "plain";
-                $pkce                     = ['code_challenge'        => $_SESSION['codeChallenge'],
-                                             'code_challenge_method' => "plain",
-                    ];
-                break;
-            case "S256":
-                $_SESSION['codeVerifier']  = GeocachingProvider::createCodeVerifier();
-                $_SESSION['codeChallenge'] = GeocachingProvider::createCodeChallenge($_SESSION['codeVerifier']);
-                $_SESSION['pkce']          = "S256";
-                $pkce                      = ['code_challenge'        => $_SESSION['codeChallenge'],
-                                              'code_challenge_method' => 'S256',
-                    ];
-                break;
-        }
+    switch ($_POST['pkce']) {
+        case "plain":
+            $_SESSION['codeVerifier'] = $_SESSION['codeChallenge'] = GeocachingProvider::createCodeVerifier();
+            $_SESSION['pkce']         = "plain";
+            $pkce                     = ['code_challenge'        => $_SESSION['codeChallenge'],
+                                         'code_challenge_method' => "plain",
+                ];
+            break;
+        case "S256":
+            $_SESSION['codeVerifier']  = GeocachingProvider::createCodeVerifier();
+            $_SESSION['codeChallenge'] = GeocachingProvider::createCodeChallenge($_SESSION['codeVerifier']);
+            $_SESSION['pkce']          = "S256";
+            $pkce                      = ['code_challenge'        => $_SESSION['codeChallenge'],
+                                          'code_challenge_method' => 'S256',
+                ];
+            break;
+        default:
+            echo "invalid PKCE Method";
+            exit("");
     }
 
     // Fetch the authorization URL from the provider; this returns the

@@ -13,10 +13,6 @@
                     {% if session.pkce == "plain" %} checked{% endif %}
                     {% if session.token is defined %} disabled{% endif %} />
                     <label for="pkce_plain">plain</label>
-                <input type="radio" name="pkce" id="pkce_none" value=""
-                {% if session.pkce is defined and session.pkce == "" %} checked{% endif %}
-                {% if session.token is defined %} disabled{% endif %} />
-                <label for="pkce_none">none</label>
             </p>
             <input type="submit" name="oauth" value="OAuth Login" class="btn btn-primary"{% if session.token is defined %} disabled{% endif %} />
             <input type="submit" name="reset" value="Clear OAuth Token" class="btn btn-warning" />
