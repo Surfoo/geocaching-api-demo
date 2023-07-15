@@ -2,8 +2,11 @@
 
 require dirname(__DIR__) . '/app/app.php';
 
+use Geocaching\ClientBuilder;
+use Geocaching\Enum\Environment;
 use Geocaching\Exception\GeocachingSdkException;
-use Geocaching\GeocachingFactory;
+use Geocaching\GeocachingSdk;
+use Geocaching\Options;
 use League\OAuth2\Client\Provider\Exception\GeocachingIdentityProviderException;
 use League\OAuth2\Client\Provider\Geocaching as GeocachingProvider;
 
@@ -33,6 +36,7 @@ $provider = new GeocachingProvider([
     'response_type' => 'code',
     'scope'         => '*',
     'environment'   => $app['environment'],
+    'pkceMethod'    => GeocachingProvider::PKCE_METHOD_S256,
 ]);
 
 // Refresh the OAuth Token
@@ -55,38 +59,15 @@ if (isset($_GET['refresh'])) {
 }
 
 // Run the OAuth process
-if (isset($_POST['oauth']) && $_POST['pkce']) {
-    $pkce                     = [];
-    $_SESSION['codeVerifier'] = $_SESSION['codeChallenge'] = $_SESSION['pkce'] = '';
-
-    switch ($_POST['pkce']) {
-        case "plain":
-            $_SESSION['codeVerifier'] = $_SESSION['codeChallenge'] = GeocachingProvider::createCodeVerifier();
-            $_SESSION['pkce']         = "plain";
-            $pkce                     = ['code_challenge'        => $_SESSION['codeChallenge'],
-                                         'code_challenge_method' => "plain",
-                ];
-            break;
-        case "S256":
-            $_SESSION['codeVerifier']  = GeocachingProvider::createCodeVerifier();
-            $_SESSION['codeChallenge'] = GeocachingProvider::createCodeChallenge($_SESSION['codeVerifier']);
-            $_SESSION['pkce']          = "S256";
-            $pkce                      = ['code_challenge'        => $_SESSION['codeChallenge'],
-                                          'code_challenge_method' => 'S256',
-                ];
-            break;
-        default:
-            echo "invalid PKCE Method";
-            exit("");
-    }
-
+if (isset($_POST['oauth'])) {
     // Fetch the authorization URL from the provider; this returns the
     // urlAuthorize option and generates and applies any necessary parameters
     // (e.g. state).
-    $authorizationUrl = $provider->getAuthorizationUrl($pkce);
+    $authorizationUrl = $provider->getAuthorizationUrl();
 
     // Get the state generated for you and store it to the session.
     $_SESSION['oauth2state'] = $provider->getState();
+    $_SESSION['oauth2pkceCode'] = $provider->getPkceCode();
     // Redirect the user to the authorization URL.
     header('Location: ' . $authorizationUrl);
     exit(0);
@@ -110,11 +91,11 @@ if (isset($_SESSION['oauth2state'])) {
                     $_GET['error_description']
                 ), 0, $_GET);
             }
+
+            $provider->setPkceCode($_SESSION['oauth2pkceCode']);
+
             // Try to get an access token using the authorization code grant.
-            $accessToken = $provider->getAccessToken('authorization_code', [
-                'code'          => $_GET['code'],
-                'code_verifier' => $_SESSION['codeVerifier'],
-            ]);
+            $accessToken = $provider->getAccessToken('authorization_code', ['code' => $_GET['code']]);
 
             // We have an access token, which we may use in authenticated
             // requests against the service provider's API.
@@ -157,16 +138,15 @@ if (!empty($_SESSION['token'])) {
             }
         }
 
-        // Create GeocachingSDK from a factory
-        $geocachingApi = GeocachingFactory::createSdk(
-            $_SESSION['token']->getToken(),
-            $app['environment'],
-            [
-                'debug'           => HTTP_DEBUG,
-                'timeout'         => 5,
-                'connect_timeout' => 2,
-            ]
-        );
+        $clientBuilder = new ClientBuilder();
+        $options = new Options([
+            'access_token'   => $_SESSION['token']->getToken(),
+            'environment'    => Environment::from($app['environment']),
+            'client_builder' => $clientBuilder,
+        ]);
+
+        $geocachingApi = new GeocachingSdk($options);
+
         // request the API with getUser method
         $httpResponse = $geocachingApi->getUser(
             'me',
@@ -176,20 +156,11 @@ if (!empty($_SESSION['token'])) {
             ]
         );
 
-        $response['body']       = $httpResponse->getBody(true);
+        $response['body']       = json_decode(json:(string) $httpResponse->getBody(), associative:true, flags:JSON_PRETTY_PRINT);
         $response['headers']    = $httpResponse->getHeaders();
         $response['statusCode'] = sprintf('%d %s', $httpResponse->getStatusCode(), $httpResponse->getReasonPhrase());
 
         $twig_vars['response'] = $response;
-    } catch (GeocachingSdkException $e) {
-        $class                  = explode('\\', get_class($e));
-        $twig_vars['exception'] = [
-            'type'    => array_pop($class),
-            'message' => $e->getMessage(),
-            'code'    => $e->getCode(),
-            'context' => $e->getContext(),
-            'trace'   => print_r($e->getTrace(), true),
-        ];
     } catch (\Throwable $e) {
         $class                  = explode('\\', get_class($e));
         $twig_vars['exception'] = [

@@ -9,10 +9,12 @@
             "email": "surfooo@gmail.com"
         }
     ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "php": "^8.1",
         "twig/twig": "^3.0",
-        "surfoo/geocaching-php-sdk": "^3.17",
+        "surfoo/geocaching-php-sdk": "dev-feat-v4",
         "twbs/bootstrap": "^5.0",
         "symfony/error-handler": "^6.2"
     },
@@ -33,5 +35,10 @@
         ],
         "phpstan": "vendor/bin/phpstan analyse",
         "php-cs-fixer": "php-cs-fixer fix"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
     }
 }
