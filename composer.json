@@ -9,12 +9,11 @@
             "email": "surfooo@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
         "php": "^8.1",
         "twig/twig": "^3.0",
-        "surfoo/geocaching-php-sdk": "dev-feat-v4",
+        "surfoo/geocaching-php-sdk": "^4.0.0-rc",
         "twbs/bootstrap": "^5.0",
         "symfony/error-handler": "^6.2"
     },
