@@ -4,7 +4,6 @@ require dirname(__DIR__) . '/app/app.php';
 
 use Geocaching\ClientBuilder;
 use Geocaching\Enum\Environment;
-use Geocaching\Exception\GeocachingSdkException;
 use Geocaching\GeocachingSdk;
 use Geocaching\Options;
 use League\OAuth2\Client\Provider\Exception\GeocachingIdentityProviderException;
@@ -33,10 +32,7 @@ $provider = new GeocachingProvider([
     'clientId'      => $app[$app['environment']]['oauth_key'],
     'clientSecret'  => $app[$app['environment']]['oauth_secret'],
     'redirectUri'   => $app[$app['environment']]['callback_url'],
-    'response_type' => 'code',
-    'scope'         => '*',
     'environment'   => $app['environment'],
-    'pkceMethod'    => GeocachingProvider::PKCE_METHOD_S256,
 ]);
 
 // Refresh the OAuth Token

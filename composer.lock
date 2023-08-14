@@ -1286,12 +1286,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Surfoo/geocaching-php-sdk.git",
-                "reference": "bb347814ebce4a0b49b6c5b57b9c057c2865c3e3"
+                "reference": "8ebe8856361cc418c632e6d6992d58bd1b9eab7f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Surfoo/geocaching-php-sdk/zipball/bb347814ebce4a0b49b6c5b57b9c057c2865c3e3",
-                "reference": "bb347814ebce4a0b49b6c5b57b9c057c2865c3e3",
+                "url": "https://api.github.com/repos/Surfoo/geocaching-php-sdk/zipball/8ebe8856361cc418c632e6d6992d58bd1b9eab7f",
+                "reference": "8ebe8856361cc418c632e6d6992d58bd1b9eab7f",
                 "shasum": ""
             },
             "require": {
@@ -1347,20 +1347,20 @@
                 "issues": "https://github.com/Surfoo/geocaching-php-sdk/issues",
                 "source": "https://github.com/Surfoo/geocaching-php-sdk/tree/4.0.0-rc"
             },
-            "time": "2023-08-13T10:09:50+00:00"
+            "time": "2023-08-14T09:56:41+00:00"
         },
         {
             "name": "surfoo/oauth2-geocaching",
-            "version": "2.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Surfoo/oauth2-geocaching.git",
-                "reference": "efebac4219e7d3529cceec237732d406d1757215"
+                "reference": "0690f79f5195f923709751a2ece46b829239a8ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Surfoo/oauth2-geocaching/zipball/efebac4219e7d3529cceec237732d406d1757215",
-                "reference": "efebac4219e7d3529cceec237732d406d1757215",
+                "url": "https://api.github.com/repos/Surfoo/oauth2-geocaching/zipball/0690f79f5195f923709751a2ece46b829239a8ab",
+                "reference": "0690f79f5195f923709751a2ece46b829239a8ab",
                 "shasum": ""
             },
             "require": {
@@ -1404,9 +1404,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Surfoo/oauth2-geocaching/issues",
-                "source": "https://github.com/Surfoo/oauth2-geocaching/tree/2.0.0"
+                "source": "https://github.com/Surfoo/oauth2-geocaching/tree/2.0.1"
             },
-            "time": "2023-08-13T09:14:38+00:00"
+            "time": "2023-08-14T14:43:01+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -2444,16 +2444,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.22.0",
+            "version": "v3.23.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "92b019f6c8d79aa26349d0db7671d37440dc0ff3"
+                "reference": "35af3cbbacfa91e164b252a28ec0b644f1ed4e78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/92b019f6c8d79aa26349d0db7671d37440dc0ff3",
-                "reference": "92b019f6c8d79aa26349d0db7671d37440dc0ff3",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/35af3cbbacfa91e164b252a28ec0b644f1ed4e78",
+                "reference": "35af3cbbacfa91e164b252a28ec0b644f1ed4e78",
                 "shasum": ""
             },
             "require": {
@@ -2529,7 +2529,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.22.0"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.23.0"
             },
             "funding": [
                 {
@@ -2537,20 +2537,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-07-16T23:08:06+00:00"
+            "time": "2023-08-14T12:27:35+00:00"
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.28",
+            "version": "1.10.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "e4545b55904ebef470423d3ddddb74fa7325497a"
+                "reference": "ee5d8f2d3977fb09e55603eee6fb53bdd76ee9c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/e4545b55904ebef470423d3ddddb74fa7325497a",
-                "reference": "e4545b55904ebef470423d3ddddb74fa7325497a",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/ee5d8f2d3977fb09e55603eee6fb53bdd76ee9c1",
+                "reference": "ee5d8f2d3977fb09e55603eee6fb53bdd76ee9c1",
                 "shasum": ""
             },
             "require": {
@@ -2599,7 +2599,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-08T12:33:42+00:00"
+            "time": "2023-08-14T13:24:11+00:00"
         },
         {
             "name": "psr/cache",
