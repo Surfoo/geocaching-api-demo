@@ -29,7 +29,7 @@ foreach ($swaggerJson['paths'] as $path => $methods) {
 }
 
 // GeocachingSdk Methods
-$methods    = (new ReflectionClass('Geocaching\Sdk\GeocachingSdk'))->getMethods();
+$methods    = (new ReflectionClass('Geocaching\GeocachingSdk'))->getMethods();
 $sdkMethods = [];
 foreach ($methods as $method) {
     if ($method->getName() == '__construct') {
