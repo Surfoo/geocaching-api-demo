@@ -4,16 +4,6 @@
     <form action="#" method="post" role="form">
         <fieldset>
             <p><strong>Environment:</strong> {{ environment }}<br />
-            <strong><abbr title="Proof Key for Code Exchange">PKCE</abbr>:</strong>
-                <input type="radio" name="pkce" id="pkce_s256" value="S256"
-                    {% if session.pkce == "S256" or session.pkce is not defined %} checked{% endif %}
-                    {% if session.token is defined %} disabled{% endif %} />
-                    <label for="pkce_s256">sha256</label>
-                <input type="radio" name="pkce" id="pkce_plain" value="plain"
-                    {% if session.pkce == "plain" %} checked{% endif %}
-                    {% if session.token is defined %} disabled{% endif %} />
-                    <label for="pkce_plain">plain</label>
-            </p>
             <input type="submit" name="oauth" value="OAuth Login" class="btn btn-primary"{% if session.token is defined %} disabled{% endif %} />
             <input type="submit" name="reset" value="Clear OAuth Token" class="btn btn-warning" />
         </fieldset>
