@@ -1286,12 +1286,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Surfoo/geocaching-php-sdk.git",
-                "reference": "8ebe8856361cc418c632e6d6992d58bd1b9eab7f"
+                "reference": "8918f6a574a7018b35d9a96cd7c7ea824cf06b81"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Surfoo/geocaching-php-sdk/zipball/8ebe8856361cc418c632e6d6992d58bd1b9eab7f",
-                "reference": "8ebe8856361cc418c632e6d6992d58bd1b9eab7f",
+                "url": "https://api.github.com/repos/Surfoo/geocaching-php-sdk/zipball/8918f6a574a7018b35d9a96cd7c7ea824cf06b81",
+                "reference": "8918f6a574a7018b35d9a96cd7c7ea824cf06b81",
                 "shasum": ""
             },
             "require": {
@@ -1347,7 +1347,7 @@
                 "issues": "https://github.com/Surfoo/geocaching-php-sdk/issues",
                 "source": "https://github.com/Surfoo/geocaching-php-sdk/tree/4.0.0-rc"
             },
-            "time": "2023-08-14T09:56:41+00:00"
+            "time": "2023-08-18T21:06:19+00:00"
         },
         {
             "name": "surfoo/oauth2-geocaching",
