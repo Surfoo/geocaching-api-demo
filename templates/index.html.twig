@@ -43,6 +43,7 @@
         <div class="alert alert-warning" role="alert">
             <h4>{{ exception.type }}</h4>
             <strong>Message:</strong> <code>{{ exception.message }}</code><br />
+            {% if exception.errorMessage is defined %}<strong>errorMessage:</strong> <code>{{ exception.errorMessage }}</code><br />{% endif %}
             {% if exception.code is defined %}<strong>Code:</strong> <code>{{ exception.code }}</code><br />{% endif %}
             {% if exception.context is defined %}<strong>Context:</strong> <button type="button" class="btn btn-sm btn-warning">Show</button>
             <pre class="hide">{{ exception.context|print_r }}</pre><br />{% endif %}
@@ -72,7 +73,7 @@
         }
     });
 
-    document.querySelectorAll('h4 button').forEach(elm => {
+    document.querySelectorAll('div button').forEach(elm => {
         elm.addEventListener('click', (e) => {
             elm = e.target.nextElementSibling || e.target.parentNode.nextElementSibling
             if (elm.classList.contains("show")) {

@@ -148,7 +148,7 @@ if (!empty($_SESSION['token'])) {
             'me',
             ['fields' => 'username,referenceCode,joinedDateUtc,favoritePoints,' .
                          'membershipLevelId,avatarUrl,bannerUrl,url,homeCoordinates,' .
-                         'hideCount,findCount,geocacheLimits,optedInFriendSharing',
+                         'hideCount,findCount,geocacheLimits',
             ]
         );
 
@@ -158,12 +158,15 @@ if (!empty($_SESSION['token'])) {
 
         $twig_vars['response'] = $response;
     } catch (\Throwable $e) {
-        $class                  = explode('\\', get_class($e));
+        $class       = explode('\\', get_class($e));
+        $jsonContent = json_decode($e->getResponseBody());
+
         $twig_vars['exception'] = [
-            'type'    => array_pop($class),
-            'message' => $e->getMessage(),
-            'code'    => $e->getCode(),
-            'trace'   => print_r($e->getTrace(), true),
+            'type'         => array_pop($class),
+            'message'      => $e->getMessage(),
+            'errorMessage' => $jsonContent->errorMessage,
+            'code'         => $e->getCode(),
+            'trace'        => print_r($e->getTrace(), true),
         ];
     }
 
