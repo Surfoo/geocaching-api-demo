@@ -15,10 +15,10 @@
         "twig/twig": "^3.0",
         "surfoo/geocaching-php-sdk": "^4.0.0-rc",
         "twbs/bootstrap": "^5.0",
-        "symfony/error-handler": "^6.2"
+        "symfony/error-handler": "^7.0"
     },
     "require-dev": {
-        "phpstan/phpstan": "^1.0",
+        "phpstan/phpstan": "^2.0",
         "friendsofphp/php-cs-fixer": "^3.0"
     },
     "scripts": {

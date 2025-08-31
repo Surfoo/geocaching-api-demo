@@ -1,5 +1,4 @@
 parameters:
-    checkMissingIterableValueType: false
     level: 5
     paths:
         - app
