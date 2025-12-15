@@ -6,8 +6,14 @@ use Geocaching\ClientBuilder;
 use Geocaching\Enum\Environment;
 use Geocaching\GeocachingSdk;
 use Geocaching\Options;
+use GeoDemo\SessionTokenStorage;
+use League\OAuth2\Client\Plugin\TokenRefreshPlugin;
 use League\OAuth2\Client\Provider\Exception\GeocachingIdentityProviderException;
 use League\OAuth2\Client\Provider\Geocaching as GeocachingProvider;
+use Http\Client\Common\PluginClientFactory;
+use Http\Discovery\Psr18ClientDiscovery;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 
 // Display HTTP logs from Guzzle
 define('HTTP_DEBUG', false);
@@ -15,6 +21,9 @@ define('HTTP_DEBUG', false);
 session_start();
 
 $twig_vars = [];
+
+$logger = new Logger('demo');
+$logger->pushHandler(new StreamHandler(__DIR__ . '/../logs/demo.log', \Monolog\Level::Debug));
 
 // OAuth reset
 if (isset($_POST['reset'])) {
@@ -34,25 +43,6 @@ $provider = new GeocachingProvider([
     'redirectUri'   => $app[$app['environment']]['callback_url'],
     'environment'   => $app['environment'],
 ]);
-
-// Refresh the OAuth Token
-if (isset($_GET['refresh'])) {
-    try {
-        $_SESSION['token'] = $provider->getAccessToken('refresh_token', [
-            'refresh_token' => $_SESSION['token']->getRefreshToken(),
-        ]);
-    } catch (GeocachingIdentityProviderException $e) {
-        $twig_vars['exception'] = [
-            'type'    => 'GeocachingIdentityProviderException',
-            'message' => $e->getMessage(),
-            'code'    => $e->getCode(),
-            'trace'   => print_r($e->getTrace(), true),
-        ];
-    }
-
-    header('Location: ' . WEB_DIRECTORY);
-    exit(0);
-}
 
 // Run the OAuth process
 if (isset($_POST['oauth'])) {
@@ -78,7 +68,7 @@ if (isset($_SESSION['oauth2state'])) {
             'message' => $_GET['state'] . ' != ' . $_SESSION['oauth2state'],
         ];
     } else {
-        // state is OK, retrive the access token
+        // state is OK, retrieve the access token
         try {
             if (!isset($_GET['code'])) {
                 throw new GeocachingIdentityProviderException(sprintf(
@@ -96,6 +86,25 @@ if (isset($_SESSION['oauth2state'])) {
             // We have an access token, which we may use in authenticated
             // requests against the service provider's API.
             $_SESSION['token'] = $accessToken;
+
+            // Capture reference code for later refresh storage key
+            try {
+                $requester = $provider->setResourceOwnerFields(
+                    [
+                        'referenceCode',
+                        'findCount',
+                        'hideCount',
+                        'favoritePoints',
+                        'username',
+                        'membershipLevelId',
+                        'url',
+                    ])->getResourceOwner($accessToken);
+                $_SESSION['resourceReference'] = $requester->getReferenceCode();
+                $_SESSION['requester'] = $requester;
+            } catch (\Throwable $e) {
+                $logger->warning('Unable to fetch resource owner after auth', ['error' => $e->getMessage()]);
+                $_SESSION['resourceReference'] = 'session-user';
+            }
         } catch (\Throwable $e) {
             // Failed to get the access token or user details.
             $class = explode('\\', get_class($e));
@@ -116,36 +125,22 @@ if (isset($_SESSION['oauth2state'])) {
 
 if (!empty($_SESSION['token'])) {
     try {
-        $_SESSION['resourceOwner'] = $provider
-        ->setResourceOwnerFields(
-            [
-                'referenceCode',
-                'findCount',
-                'hideCount',
-                'favoritePoints',
-                'username',
-                'membershipLevelId',
-                'url',
-            ])
-        ->getResourceOwner($_SESSION['token']);
+        // Use stored reference code from initial auth (fallback to generic key)
+        $referenceCode = $_SESSION['resourceReference'] ?? 'session-user';
 
-        // Check expiration token, and renew if needed
-        if ($_SESSION['token']->hasExpired()) {
-            try {
-                $_SESSION['token'] = $provider->getAccessToken('refresh_token', [
-                    'refresh_token' => $_SESSION['token']->getRefreshToken(),
-                ]);
-            } catch (GeocachingIdentityProviderException $e) {
-                $twig_vars['exception'] = [
-                    'type'    => "GeocachingIdentityProviderException",
-                    'message' => $e->getMessage(),
-                    'code'    => $e->getCode(),
-                    'trace'   => print_r($e->getTrace(), true),
-                ];
-            }
-        }
+        // Setup token refresh plugin and logger
+        $storage       = new SessionTokenStorage();
+        $refreshPlugin = new TokenRefreshPlugin(
+            $referenceCode,
+            $storage,
+            $provider,
+            $logger
+        );
 
+        // Build client builder with refresh plugin BEFORE creating SDK
         $clientBuilder = new ClientBuilder();
+        $clientBuilder->addPlugin($refreshPlugin);
+
         $options = new Options([
             'access_token'   => $_SESSION['token']->getToken(),
             'environment'    => Environment::from($app['environment']),
@@ -154,7 +149,9 @@ if (!empty($_SESSION['token'])) {
 
         $geocachingApi = new GeocachingSdk($options);
 
-        // request the API with getUser method
+        /**
+         * Example: request the API with getUser method
+         */
         $httpResponse = $geocachingApi->getUser(
             'me',
             ['fields' => 'username,referenceCode,joinedDateUtc,favoritePoints,' .
@@ -175,7 +172,7 @@ if (!empty($_SESSION['token'])) {
         $twig_vars['exception'] = [
             'type'         => array_pop($class),
             'message'      => $e->getMessage(),
-            'errorMessage' => $jsonContent->errorMessage,
+            'errorMessage' => $jsonContent->errorMessage ?? null,
             'code'         => $e->getCode(),
             'trace'        => print_r($e->getTrace(), true),
         ];
@@ -187,7 +184,8 @@ if (!empty($_SESSION['token'])) {
     }
 }
 
-$twig_vars['environment'] = $app['environment'];
-$twig_vars['session']     = $_SESSION;
+$twig_vars['environment'] = $app['environment'] ?? null;
+$twig_vars['requester']   = $_SESSION['requester'] ?? null;
+$twig_vars['token']       = $_SESSION['token'] ?? null;
 
 echo $twig->render('index.html.twig', $twig_vars);

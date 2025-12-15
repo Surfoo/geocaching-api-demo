@@ -4,30 +4,30 @@
     <form action="#" method="post" role="form">
         <fieldset>
             <p><strong>Environment:</strong> {{ environment }}<br />
-            <input type="submit" name="oauth" value="OAuth Login" class="btn btn-primary"{% if session.token is defined %} disabled{% endif %} />
+            <input type="submit" name="oauth" value="OAuth Login" class="btn btn-primary"{% if token is not defined %} disabled{% endif %} />
             <input type="submit" name="reset" value="Clear OAuth Token" class="btn btn-warning" />
         </fieldset>
     </form>
-    {% if session.token is defined %}
+    {% if token is defined and token is not empty %}
         <div class="alert alert-secondary" role="alert">
             <h4>Token information <small>(<a href="https://api.groundspeak.com/api-docs/index">Swagger</a>)</small></h4>
             <ul id="tokenInformation">
                 <li>Access Token:
-                    <code title="length = {{ session.token.getToken()|length }}" style="overflow-wrap: break-word;">{{ session.token.getToken() }}</code>
+                    <code title="length = {{ token.getToken()|length }}" style="overflow-wrap: break-word;">{{ token.getToken() }}</code>
                 </li>
                 <li>Refresh Token:
-                    <code title="length = {{ session.token.getRefreshToken()|length }}">{{ session.token.getRefreshToken() }}</code>
+                    <code title="length = {{ token.getRefreshToken()|length }}">{{ token.getRefreshToken() }}</code>
                 </li>
                 <li>Expiration time:
-                    <code title="Timestamp: {{ session.token.getExpires() }}">{{ session.token.getExpires()|date('r') }}</code>
-                    <a href="?refresh" class="btn btn-secondary btn-sm">Refresh the token</a>
+                    <code title="Timestamp: {{ token.getExpires() }}">{{ token.getExpires()|date('r') }}</code>
+                    <a href="" class="btn btn-secondary btn-sm">Refresh the token</a>
                 </li>
             </ul>
             <hr />
             <h4>User information</h4>
             <ul>
-                <li><a href="{{ session.resourceOwner.getProfileUrl() }}">{{ session.resourceOwner.getUsername() }}</a> ({{ session.resourceOwner.getId() }}) &bullet; Membership Level: {{ session.resourceOwner.getMembershipLevelId() }}</li>
-                <li>Hide: {{ session.resourceOwner.getHideCount() }} &bullet; Found: {{ session.resourceOwner.getFindCount() }} &bullet; FP: {{ session.resourceOwner.getFavoritePoints() }}</li>
+                <li><a href="{{ requester.getProfileUrl() }}">{{ requester.getUsername() }}</a> ({{ requester.getId() }}) &bullet; Membership Level: {{ requester.getMembershipLevelId() }}</li>
+                <li>Hide: {{ requester.getHideCount() }} &bullet; Found: {{ requester.getFindCount() }} &bullet; FP: {{ requester.getFavoritePoints() }}</li>
             </ul>
         </div>
     {% endif %}

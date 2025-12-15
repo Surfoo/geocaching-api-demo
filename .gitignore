@@ -2,6 +2,7 @@ cache
 !cache/.gitkeep
 vendor
 app/config.php
+logs/*
 public/assets/bootstrap
 !public/assets/bootstrap/.gitkeep
 .php-cs-fixer.cache

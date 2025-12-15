@@ -10,10 +10,16 @@
         }
     ],
     "prefer-stable": true,
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "GeoDemo\\": "src/"
+        }
+    },
     "require": {
         "php": "^8.2",
         "twig/twig": "^3.0",
-        "surfoo/geocaching-php-sdk": "feat-v4-dev",
+        "surfoo/geocaching-php-sdk": "dev-feat-v4",
         "twbs/bootstrap": "^5.0",
         "symfony/error-handler": "^7.0 || ^8.0"
     },
