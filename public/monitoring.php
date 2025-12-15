@@ -1,4 +1,4 @@
- <?php
+<?php
 
 require dirname(__DIR__) . '/app/app.php';
 
@@ -21,10 +21,17 @@ if (file_exists($swaggerAbsolutePath) &&
 
 $swaggerJson = json_decode($jsonContent, true);
 
+/**
+ * Normalize a swagger/SDK path by stripping version prefixes like /v1 or /v{api-version}.
+ */
+$normalizePath = static function (string $path): string {
+    return preg_replace('#^/v[^/]+#', '', $path) ?: $path;
+};
+
 $swaggerMethods = [];
 foreach ($swaggerJson['paths'] as $path => $methods) {
     foreach (array_keys($methods) as $method) {
-        $swaggerMethods[] = sprintf('%s %s', strtoupper($method), $path);
+        $swaggerMethods[] = sprintf('%s %s', strtoupper($method), $normalizePath($path));
     }
 }
 
@@ -32,15 +39,16 @@ foreach ($swaggerJson['paths'] as $path => $methods) {
 $methods    = (new ReflectionClass('Geocaching\GeocachingSdk'))->getMethods();
 $sdkMethods = [];
 foreach ($methods as $method) {
-    if ($method->getName() == '__construct') {
+    if ($method->getName() === '__construct') {
         continue;
     }
 
-    preg_match('/swagger:\s([^\s]+)\s([^\s]+)/', $method->getDocComment(), $matches);
-
-    if (count($matches) == 3) {
-        list(, $methodMatch, $pathMatch) = $matches;
-        $sdkMethods[]                    = sprintf('%s %s', $methodMatch, $pathMatch);
+    $doc = $method->getDocComment() ?: '';
+    // Parse docblock lines like "GET /v1/..." or "POST /v1/..."
+    if (preg_match('/\b(GET|POST|PUT|DELETE)\s+(\/[^\s*]+)/', $doc, $matches) === 1) {
+        $httpVerb     = strtoupper($matches[1]);
+        $httpPath     = $normalizePath($matches[2]);
+        $sdkMethods[] = sprintf('%s %s', $httpVerb, $httpPath);
     }
 }
 
