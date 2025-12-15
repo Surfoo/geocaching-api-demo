@@ -11,11 +11,11 @@
     ],
     "prefer-stable": true,
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "twig/twig": "^3.0",
-        "surfoo/geocaching-php-sdk": "^4.0.0-rc",
+        "surfoo/geocaching-php-sdk": "feat-v4-dev",
         "twbs/bootstrap": "^5.0",
-        "symfony/error-handler": "^7.0"
+        "symfony/error-handler": "^7.0 || ^8.0"
     },
     "require-dev": {
         "phpstan/phpstan": "^2.0",

@@ -116,7 +116,18 @@ if (isset($_SESSION['oauth2state'])) {
 
 if (!empty($_SESSION['token'])) {
     try {
-        $_SESSION['resourceOwner'] = $provider->getResourceOwner($_SESSION['token']);
+        $_SESSION['resourceOwner'] = $provider
+        ->setResourceOwnerFields(
+            [
+                'referenceCode',
+                'findCount',
+                'hideCount',
+                'favoritePoints',
+                'username',
+                'membershipLevelId',
+                'url',
+            ])
+        ->getResourceOwner($_SESSION['token']);
 
         // Check expiration token, and renew if needed
         if ($_SESSION['token']->hasExpired()) {
