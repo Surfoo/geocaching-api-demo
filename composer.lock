@@ -1227,12 +1227,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Surfoo/geocaching-php-sdk.git",
-                "reference": "22f3f4bedcbc04897f8389aadbe57a25981a6e89"
+                "reference": "6204ce259ea5b87c069dee4a9c1cc5802d8a444b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Surfoo/geocaching-php-sdk/zipball/22f3f4bedcbc04897f8389aadbe57a25981a6e89",
-                "reference": "22f3f4bedcbc04897f8389aadbe57a25981a6e89",
+                "url": "https://api.github.com/repos/Surfoo/geocaching-php-sdk/zipball/6204ce259ea5b87c069dee4a9c1cc5802d8a444b",
+                "reference": "6204ce259ea5b87c069dee4a9c1cc5802d8a444b",
                 "shasum": ""
             },
             "require": {
@@ -1288,7 +1288,7 @@
                 "issues": "https://github.com/Surfoo/geocaching-php-sdk/issues",
                 "source": "https://github.com/Surfoo/geocaching-php-sdk/tree/feat-v4"
             },
-            "time": "2025-12-15T15:39:14+00:00"
+            "time": "2025-12-16T22:44:47+00:00"
         },
         {
             "name": "surfoo/oauth2-geocaching",
@@ -1296,12 +1296,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Surfoo/oauth2-geocaching.git",
-                "reference": "b4f1f98a81c4c7475f54b1a412d3fa169ed4f6cf"
+                "reference": "9c8d871da7b4011e9afdf82795e25418d3299698"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Surfoo/oauth2-geocaching/zipball/b4f1f98a81c4c7475f54b1a412d3fa169ed4f6cf",
-                "reference": "b4f1f98a81c4c7475f54b1a412d3fa169ed4f6cf",
+                "url": "https://api.github.com/repos/Surfoo/oauth2-geocaching/zipball/9c8d871da7b4011e9afdf82795e25418d3299698",
+                "reference": "9c8d871da7b4011e9afdf82795e25418d3299698",
                 "shasum": ""
             },
             "require": {
@@ -1312,7 +1312,7 @@
                 "psr/log": "^3.0"
             },
             "require-dev": {
-                "mockery/mockery": "~1.4",
+                "nyholm/psr7": "^1.8",
                 "php-parallel-lint/php-parallel-lint": "~1.3",
                 "phpstan/phpstan": "^2.0",
                 "phpunit/php-code-coverage": "^11.0 || ^12.0",
@@ -1350,7 +1350,7 @@
                 "issues": "https://github.com/Surfoo/oauth2-geocaching/issues",
                 "source": "https://github.com/Surfoo/oauth2-geocaching/tree/feat-v3"
             },
-            "time": "2025-12-15T21:03:17+00:00"
+            "time": "2025-12-17T11:45:27+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -2517,16 +2517,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.92.0",
+            "version": "v3.92.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "5646c2cd99b7cb4b658ff681fe27069ba86c7280"
+                "reference": "64fab3553dce507ce247f7d1a7d65f74ef658c3f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/5646c2cd99b7cb4b658ff681fe27069ba86c7280",
-                "reference": "5646c2cd99b7cb4b658ff681fe27069ba86c7280",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/64fab3553dce507ce247f7d1a7d65f74ef658c3f",
+                "reference": "64fab3553dce507ce247f7d1a7d65f74ef658c3f",
                 "shasum": ""
             },
             "require": {
@@ -2566,6 +2566,7 @@
                 "php-cs-fixer/phpunit-constraint-isidenticalstring": "^1.6",
                 "php-cs-fixer/phpunit-constraint-xmlmatchesxsd": "^1.6",
                 "phpunit/phpunit": "^9.6.25 || ^10.5.53 || ^11.5.34",
+                "symfony/polyfill-php85": "^1.33",
                 "symfony/var-dumper": "^5.4.48 || ^6.4.24 || ^7.3.2 || ^8.0",
                 "symfony/yaml": "^5.4.45 || ^6.4.24 || ^7.3.2 || ^8.0"
             },
@@ -2608,7 +2609,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.92.0"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.92.2"
             },
             "funding": [
                 {
@@ -2616,7 +2617,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-12-12T10:29:19+00:00"
+            "time": "2025-12-17T00:04:16+00:00"
         },
         {
             "name": "phpstan/phpstan",

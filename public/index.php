@@ -6,17 +6,18 @@ use Geocaching\ClientBuilder;
 use Geocaching\Enum\Environment;
 use Geocaching\GeocachingSdk;
 use Geocaching\Options;
+use Geocaching\Plugin\GeocachingHttpLoggerPlugin;
 use GeoDemo\SessionTokenStorage;
 use League\OAuth2\Client\Plugin\TokenRefreshPlugin;
 use League\OAuth2\Client\Provider\Exception\GeocachingIdentityProviderException;
 use League\OAuth2\Client\Provider\Geocaching as GeocachingProvider;
-use Http\Client\Common\PluginClientFactory;
-use Http\Discovery\Psr18ClientDiscovery;
 use Monolog\Handler\StreamHandler;
+use Monolog\Handler\TestHandler;
 use Monolog\Logger;
+use Psr\Log\LogLevel;
 
-// Display HTTP logs from Guzzle
-define('HTTP_DEBUG', false);
+// Display HTTP logs
+define('HTTP_DEBUG', true);
 
 session_start();
 
@@ -128,7 +129,10 @@ if (!empty($_SESSION['token'])) {
         // Use stored reference code from initial auth (fallback to generic key)
         $referenceCode = $_SESSION['resourceReference'] ?? 'session-user';
 
-        // Setup token refresh plugin and logger
+        // Build client builder
+        $clientBuilder = new ClientBuilder();
+
+        //Optional refresh plugin
         $storage       = new SessionTokenStorage();
         $refreshPlugin = new TokenRefreshPlugin(
             $referenceCode,
@@ -136,17 +140,30 @@ if (!empty($_SESSION['token'])) {
             $provider,
             $logger
         );
-
-        // Build client builder with refresh plugin BEFORE creating SDK
-        $clientBuilder = new ClientBuilder();
         $clientBuilder->addPlugin($refreshPlugin);
+
+        // Optional HTTP logging captured in-memory
+        $httpLogHandler = null;
+        if (HTTP_DEBUG) {
+            $httpLogHandler = new TestHandler();
+            $httpLogger     = new Logger('http');
+            $httpLogger->pushHandler($httpLogHandler);
+
+            $clientBuilder->addPlugin(new GeocachingHttpLoggerPlugin(
+                $httpLogger,
+                LogLevel::DEBUG,
+                logBodies: true,
+                maskTokens: true
+            ));
+        }
 
         $options = new Options([
             'access_token'   => $_SESSION['token']->getToken(),
             'environment'    => Environment::from($app['environment']),
             'client_builder' => $clientBuilder,
+            'token_storage'  => $storage,
+            'reference_code' => $referenceCode,
         ]);
-
         $geocachingApi = new GeocachingSdk($options);
 
         /**
@@ -178,9 +195,17 @@ if (!empty($_SESSION['token'])) {
         ];
     }
 
-    $httpDebugLog = ob_get_clean();
-    if (HTTP_DEBUG) {
-        $twig_vars['http_debug'] = print_r($httpDebugLog, true);
+    if (HTTP_DEBUG && isset($httpLogHandler)) {
+        $twig_vars['http_debug'] = implode("\n", array_map(
+            static fn ($record) => sprintf(
+                '[%s] %s: %s %s',
+                $record['datetime']->format('c'),
+                $record['level_name'],
+                $record['message'],
+                $record['context'] ? json_encode($record['context']) : ''
+            ),
+            $httpLogHandler->getRecords()
+        ));
     }
 }
 
