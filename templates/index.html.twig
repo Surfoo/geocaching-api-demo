@@ -1,9 +1,8 @@
 {% extends "main.html.twig" %}
 
 {% block main %}
-    <form action="#" method="post" role="form">
+    <form action="#" method="post" role="form" class="py-2">
         <fieldset>
-            <p><strong>Environment:</strong> {{ environment }}<br />
             <input type="submit" name="oauth" value="OAuth Login" class="btn btn-primary"{% if token is not defined %} disabled{% endif %} />
             <input type="submit" name="reset" value="Clear OAuth Token" class="btn btn-warning" />
         </fieldset>
@@ -20,7 +19,6 @@
                 </li>
                 <li>Expiration time:
                     <code title="Timestamp: {{ token.getExpires() }}">{{ token.getExpires()|date('r') }}</code>
-                    <a href="" class="btn btn-secondary btn-sm">Refresh the token</a>
                 </li>
             </ul>
             <hr />
