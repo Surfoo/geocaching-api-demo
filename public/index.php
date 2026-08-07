@@ -2,13 +2,10 @@
 
 require dirname(__DIR__) . '/app/app.php';
 
-use Geocaching\ClientBuilder;
 use Geocaching\Enum\Environment;
 use Geocaching\GeocachingSdk;
 use Geocaching\Options;
-use Geocaching\Plugin\GeocachingHttpLoggerPlugin;
 use GeoDemo\SessionTokenStorage;
-use League\OAuth2\Client\Plugin\TokenRefreshPlugin;
 use League\OAuth2\Client\Provider\Exception\GeocachingIdentityProviderException;
 use League\OAuth2\Client\Provider\Geocaching as GeocachingProvider;
 use Monolog\Handler\StreamHandler;
@@ -129,18 +126,22 @@ if (!empty($_SESSION['token'])) {
         // Use stored reference code from initial auth (fallback to generic key)
         $referenceCode = $_SESSION['resourceReference'] ?? 'session-user';
 
-        // Build client builder
-        $clientBuilder = new ClientBuilder();
+        $storage = new SessionTokenStorage();
 
-        //Optional refresh plugin
-        $storage       = new SessionTokenStorage();
-        $refreshPlugin = new TokenRefreshPlugin(
-            $referenceCode,
-            $storage,
-            $provider,
-            $logger
-        );
-        $clientBuilder->addPlugin($refreshPlugin);
+        $options = new Options([
+            'access_token'   => $_SESSION['token']->getToken(),
+            'environment'    => Environment::from($app['environment']),
+            'token_storage'  => $storage,
+            'reference_code' => $referenceCode,
+        ]);
+
+        // Automatically refresh the access token when it expires
+        $options->enableTokenRefresh([
+            'reference_code' => $referenceCode,
+            'storage'        => $storage,
+            'oauth_provider' => $provider,
+            'logger'         => $logger,
+        ]);
 
         // Optional HTTP logging captured in-memory
         $httpLogHandler = null;
@@ -149,21 +150,14 @@ if (!empty($_SESSION['token'])) {
             $httpLogger     = new Logger('http');
             $httpLogger->pushHandler($httpLogHandler);
 
-            $clientBuilder->addPlugin(new GeocachingHttpLoggerPlugin(
+            $options->enableHttpLoggingWithLogger(
                 $httpLogger,
                 LogLevel::DEBUG,
                 logBodies: true,
                 maskTokens: true
-            ));
+            );
         }
 
-        $options = new Options([
-            'access_token'   => $_SESSION['token']->getToken(),
-            'environment'    => Environment::from($app['environment']),
-            'client_builder' => $clientBuilder,
-            'token_storage'  => $storage,
-            'reference_code' => $referenceCode,
-        ]);
         $geocachingApi = new GeocachingSdk($options);
 
         /**
