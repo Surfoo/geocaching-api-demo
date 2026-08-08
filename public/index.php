@@ -12,6 +12,7 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Handler\TestHandler;
 use Monolog\Logger;
 use Psr\Log\LogLevel;
+use Http\Client\Exception\HttpException;
 
 // Display HTTP logs
 define('HTTP_DEBUG', true);
@@ -176,14 +177,24 @@ if (!empty($_SESSION['token'])) {
         $response['statusCode'] = sprintf('%d %s', $httpResponse->getStatusCode(), $httpResponse->getReasonPhrase());
 
         $twig_vars['response'] = $response;
-    } catch (\Throwable $e) {
+    } catch (HttpException $e) {
         $class       = explode('\\', get_class($e));
-        $jsonContent = json_decode($e->getResponseBody());
+        $jsonContent = json_decode((string) $e->getResponse()->getBody());
 
         $twig_vars['exception'] = [
             'type'         => array_pop($class),
             'message'      => $e->getMessage(),
             'errorMessage' => $jsonContent->errorMessage ?? null,
+            'code'         => $e->getCode(),
+            'trace'        => print_r($e->getTrace(), true),
+        ];
+    } catch (\Throwable $e) {
+        $class = explode('\\', get_class($e));
+
+        $twig_vars['exception'] = [
+            'type'         => array_pop($class),
+            'message'      => $e->getMessage(),
+            'errorMessage' => null,
             'code'         => $e->getCode(),
             'trace'        => print_r($e->getTrace(), true),
         ];
